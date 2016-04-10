@@ -1,4 +1,4 @@
-#include <Location.h>
+#include "Location.h"
 
 Location::Location():x(0),y(0){
 
@@ -9,13 +9,12 @@ Location::~Location(){
 }
 
 float Location::getX(){
-	return this->x;
+	return x;
 }
 
 float Location::getY(){
-	return this->y;
+	return y;
 }
-
 
 void Location::update(float x, float y){
 	this->x+=x;
