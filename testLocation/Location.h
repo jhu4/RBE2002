@@ -8,7 +8,6 @@ class Location{
 
 	public:	
 		Location();
-		~Location();
 		float getX();
 		float getY();
 		void update(float deltaX, float deltaY);

@@ -1,9 +1,7 @@
 #include "LightSensor.h"
 #include <TimerOne.h>
 
-
-LightSensor ls(7, 150);
-
+LightSensor ls(0, 50);
 void setup() {
   ls.initializing();
   Serial.begin(9600);
@@ -12,8 +10,14 @@ void setup() {
 }
 
 void aaaa(){
+  Serial.print("isDetectLight:");
+  Serial.println(ls.isDetectLight());
+  Serial.print("isGetCloser:");
+  Serial.println(ls.isGetCloser());
+  Serial.print("watch:");
   Serial.println(ls.watch());
 }
+
 void loop() {
 
 }

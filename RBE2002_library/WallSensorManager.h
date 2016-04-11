@@ -1,0 +1,12 @@
+#ifndef WALLSENSORMANAGER_H
+#define WALLSENSORMANAGER_H
+
+enum MotionStatus{
+	TURN_RIGHT,
+	TURN_LEFT,
+	GO_STRAIGHT
+};
+
+
+
+#endif

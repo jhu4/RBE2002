@@ -11,24 +11,27 @@ void LightSensor::initializing(){
 	pinMode(pin, INPUT);
 }
 
+/** Sense the flame
+ * @return if something unusual happened
+ */
 bool LightSensor::watch(){
 	lastReading = currentReading;
 	currentReading = analogRead(pin);
 	accumulator+=currentReading;
 	counter++;
 	averageReading=accumulator/counter;
-	if(averageReading!=0 && abs(averageReading-currentReading)>offset){
+	if(averageReading!= 0 && (averageReading-currentReading)>offset){
 		return true;
 	}
-
 	return false;
 }
 
+
 bool LightSensor::isDetectLight(){
-	return currentReading<300;
+	return currentReading>50 && currentReading<500;
 }
 
 bool LightSensor::isGetCloser(){
-	return (lastReading-currentReading)>20;
+	return lastReading!=0 &&((lastReading-currentReading)>60);
 }
 
