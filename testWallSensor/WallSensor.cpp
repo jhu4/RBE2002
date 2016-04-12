@@ -17,9 +17,17 @@ int WallSensor::sense(){
 }
 
 bool WallSensor::isWall(){
-	return reading>100;
+	return reading>150;
 }
 
 bool WallSensor::isFindGap(){
 	return ((lastreading-reading)>50)&&(reading<20);
+}
+
+bool WallSensor::isGap(){
+	return reading<20;
+}
+
+bool WallSensor::isSame(){
+	return abs(lastreading-reading)<10;
 }

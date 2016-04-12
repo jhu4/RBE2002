@@ -12,11 +12,16 @@ class WallSensorManager(){
 		WallSensor head,side1,side2;
 		enum MotionStatus lastState;
 		enum MotionStatus currentState;
+		bool shouldSecondTurn();
+		bool shouldFirstTurn();
+		bool shouldRightTurn();
+		bool shouldLeftTurn();
 
 	public:	
 		WallSensorManager(int headpin, int side1pin, int side2pin);
 		void initializing();
 		enum MotionStatus reportStatus();
+
 
 }
 

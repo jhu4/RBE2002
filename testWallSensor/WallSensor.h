@@ -13,6 +13,8 @@ class WallSensor{
     int sense();
 		bool isWall();
 		bool isFindGap();
+		bool isGap();
+		bool isSame();
 		
 };
 
