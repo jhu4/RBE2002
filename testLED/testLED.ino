@@ -1,9 +1,20 @@
+#include "LED.h"
+
+LED led1(9);
+LED led2(8);
+
 void setup() {
-  // put your setup code here, to run once:
+  led1.initializing();
+  led2.initializing();
 
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  led1.on();
+  led2.on();
+  delay(1000);
+  led1.off();
+  delay(1000);
+  led2.off();
 
 }

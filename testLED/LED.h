@@ -1,10 +1,9 @@
-#ifndef LCD_H
-#define LCD_H
+#ifndef LED_H
+#define LED_H
 
 class LED{
   private:
     int _pin;
-    bool _status;
   public:
     LED(int pin);
     void initializing();
