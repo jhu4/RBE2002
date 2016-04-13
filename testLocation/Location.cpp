@@ -1,6 +1,6 @@
 #include "Location.h"
 
-Location::Location():{
+Location::Location(){
   x = 0;
   y = 0;
 } 
