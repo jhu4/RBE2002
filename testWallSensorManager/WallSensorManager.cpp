@@ -13,28 +13,35 @@ void WallSensorManager::initialize(){
 }
 
 enum MotionStatus WallSensorManager::reportNextState(){
-	
   Serial.print(head.sense());
   Serial.print(" ");
-	Serial.print(side1.sense());
-  Serial.print(" ");
-	Serial.println(side2.sense());
-
-	if(shouldRightTurn()){
-    lastState=currentState;
-		currentState=TURN_RIGHT;
-		return TURN_RIGHT;
-	}
-	else if(shouldLeftTurn()){
+//	Serial.print(side1.sense());
+//  Serial.print(" ");
+//	Serial.println(side2.sense());
+//  head.sense();
+  side1.sense();
+  side2.sense();
+  
+	if(shouldLeftTurn()){
     lastState=currentState;
     currentState=TURN_LEFT;
 		return TURN_LEFT;
 	}
-	else{
+  else if(shouldRightTurn()){
+    lastState=currentState;
+    currentState=TURN_RIGHT;
+    return TURN_RIGHT;
+  }
+	else if(shouldGoStraight()){
     lastState=currentState;
     currentState=GO_STRAIGHT;
 		return GO_STRAIGHT;
 	}
+  else{
+    lastState=currentState;
+    currentState=TRANSITION;
+    return TRANSITION;
+  }
 }
 
 /* Private */
@@ -53,3 +60,8 @@ bool WallSensorManager::shouldFirstTurn(){
 bool WallSensorManager::shouldSencondTurn(){
 	return side1.isGap() && side2.isGap();
 }
+
+bool WallSensorManager::shouldGoStraight(){
+  return (side1.isWall() && side2.isWall())||(side1.isWall() && side2.isGap());
+}
+

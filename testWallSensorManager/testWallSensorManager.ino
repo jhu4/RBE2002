@@ -21,13 +21,16 @@ void timerISR(){
   enum MotionStatus status = ws.reportNextState();
   switch(status){
     case TURN_RIGHT:
-      lcd.display("Right");
+//      lcd.display("Right");
       break;
     case TURN_LEFT:
       lcd.display("Left");
       break;
     case GO_STRAIGHT:
       lcd.display("GO_STRAIGHT");
+      break;
+    case TRANSITION:
+      lcd.display("TRANSITION");
       break;
     default:
       lcd.display("You really suck");

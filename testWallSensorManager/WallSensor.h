@@ -2,7 +2,7 @@
 #define WALLSENSOR_H
 
 class WallSensor{
-	private:
+	protected:
 		int pin;
 		int reading;
 		int lastreading;
