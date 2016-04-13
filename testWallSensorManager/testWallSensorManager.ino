@@ -7,8 +7,9 @@ LCD lcd(40,41,42,43,44,45);
 WallSensorManager ws(0,1,2);
 
 void setup() {
+  Serial.begin(9600);
   ws.initialize();  
-  Timer1.initialize(500000);
+  Timer1.initialize(50000);
   Timer1.attachInterrupt(timerISR);
 }
 

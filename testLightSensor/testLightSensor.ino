@@ -3,7 +3,7 @@
 
 LightSensor ls(0, 50);
 void setup() {
-  ls.initializing();
+  ls.initialize();
   Serial.begin(9600);
   Timer1.initialize(500000);
   Timer1.attachInterrupt(aaaa);

@@ -21,11 +21,11 @@ bool WallSensor::isWall(){
 }
 
 bool WallSensor::isFindGap(){
-	return ((lastreading-reading)>50)&&(reading<20);
+	return ((lastreading-reading)>50)&&(reading<40);
 }
 
 bool WallSensor::isGap(){
-	return reading<20;
+	return reading<40;
 }
 
 bool WallSensor::isSame(){

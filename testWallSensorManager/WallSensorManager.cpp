@@ -1,4 +1,5 @@
 #include "WallSensorManager.h"
+#include <Arduino.h>
 
 WallSensorManager::WallSensorManager(int p, int p1, int p2):
 head(p),side1(p1),side2(p2){
@@ -12,9 +13,12 @@ void WallSensorManager::initialize(){
 }
 
 enum MotionStatus WallSensorManager::reportNextState(){
-	head.sense();
-	side1.sense();
-	side2.sense();
+	
+  Serial.print(head.sense());
+  Serial.print(" ");
+	Serial.print(side1.sense());
+  Serial.print(" ");
+	Serial.println(side2.sense());
 
 	if(shouldRightTurn()){
     lastState=currentState;
@@ -43,7 +47,7 @@ bool WallSensorManager::shouldLeftTurn(){
 }
 
 bool WallSensorManager::shouldFirstTurn(){
-	return side1.isFindGap() && side2.isSame();
+	return (side1.isFindGap() && side2.isSame())||(side1.isGap() && side2.isSame());
 }
 
 bool WallSensorManager::shouldSencondTurn(){

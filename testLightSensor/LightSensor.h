@@ -14,7 +14,7 @@ class LightSensor{
 	public:
 		LightSensor(int pin, int ofs);
     bool watch();
-		void initializing();
+		void initialize();
 		bool isDetectLight();
 		bool isGetCloser();
 };

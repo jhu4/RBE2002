@@ -5,10 +5,6 @@ Location::Location(){
   y = 0;
 } 
 
-Location::~Location(){
-	
-}
-
 float Location::getX(){
 	return x;
 }

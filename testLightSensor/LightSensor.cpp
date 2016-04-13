@@ -7,7 +7,7 @@ averageReading(0),counter(0),accumulator(0),lastReading(0){
 
 }
 
-void LightSensor::initializing(){
+void LightSensor::initialize(){
 	pinMode(pin, INPUT);
 }
 
