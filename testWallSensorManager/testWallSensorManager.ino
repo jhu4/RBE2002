@@ -1,5 +1,9 @@
+#include "WallSensorManager.h"
+#include <Arduino.h>
+
+WallSensorManager ws(0,1,2);
 void setup() {
-  // put your setup code here, to run once:
+  
 
 }
 

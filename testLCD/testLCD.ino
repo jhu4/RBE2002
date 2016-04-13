@@ -1,6 +1,10 @@
-void setup() {
-  // put your setup code here, to run once:
+#include "LCD.h"
+LCD lcd(40,41,42,43,44,45);
 
+void setup() {
+   lcd.initializing();
+//   lcd.displayRobotLocation(3,4);
+  lcd.displayRobotLocation(3.4578346796,4.21556,5);
 }
 
 void loop() {

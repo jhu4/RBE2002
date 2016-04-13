@@ -11,18 +11,24 @@ void WallSensorManager::initializing(){
 	side2.initializing();
 }
 
-enum MotionStatus WallSensorManager::reportStatus(){
+enum MotionStatus WallSensorManager::reportNextState(){
 	head.sense();
 	side1.sense();
 	side2.sense();
 
 	if(shouldRightTurn()){
+    lastState=currentState;
+		currentState=TURN_RIGHT;
 		return TURN_RIGHT;
 	}
 	else if(shouldLeftTurn()){
+    lastState=currentState;
+    currentState=TURN_LEFT;
 		return TURN_LEFT;
 	}
 	else{
+    lastState=currentState;
+    currentState=GO_STRAIGHT;
 		return GO_STRAIGHT;
 	}
 }
