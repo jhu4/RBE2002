@@ -5,7 +5,7 @@ LED::LED(int pin){
   _pin = pin;
 }
 
-void LED::initializing(){
+void LED::initialize(){
   pinMode(_pin, OUTPUT);
 }
 

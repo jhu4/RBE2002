@@ -1,11 +1,11 @@
 #include "LED.h"
 
-LED led1(9);
-LED led2(8);
+LED led1(23);
+LED led2(22);
 
 void setup() {
-  led1.initializing();
-  led2.initializing();
+  led1.initialize();
+  led2.initialize();
 
 }
 
@@ -16,5 +16,6 @@ void loop() {
   led1.off();
   delay(1000);
   led2.off();
+  delay(1000);
 
 }

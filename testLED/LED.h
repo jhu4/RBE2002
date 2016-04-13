@@ -6,7 +6,7 @@ class LED{
     int _pin;
   public:
     LED(int pin);
-    void initializing();
+    void initialize();
     void on();
     void off();
 };
