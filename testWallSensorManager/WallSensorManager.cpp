@@ -5,10 +5,10 @@ head(p),side1(p1),side2(p2){
 
 }
 
-void WallSensorManager::initializing(){
-	head.initializing();
-	side1.initializing();
-	side2.initializing();
+void WallSensorManager::initialize(){
+	head.initialize();
+	side1.initialize();
+	side2.initialize();
 }
 
 enum MotionStatus WallSensorManager::reportNextState(){

@@ -1,7 +1,7 @@
 #ifndef WALLSENSORMANAGER_H
 #define WALLSENSORMANAGER_H
 
-#include "S:\GitHub\RBE2002\testWallSensor\WallSensor.h"
+#include "WallSensor.h"
 
 enum MotionStatus{
 	TURN_RIGHT,
@@ -21,7 +21,7 @@ class WallSensorManager{
 
 	public:	
 		WallSensorManager(int headpin, int side1pin, int side2pin);
-		void initializing();
+		void initialize();
 		enum MotionStatus reportNextState();
 };
 
