@@ -19,6 +19,7 @@ class WallSensorManager{
 		enum MotionState currentState;
     enum MotionState lastCommand;
     enum MotionState currentCommand;
+    int data1, data2;
 		bool shouldSencondTurn();
 		bool shouldFirstTurn();
 		bool shouldRightTurn();
@@ -29,7 +30,7 @@ class WallSensorManager{
 		WallSensorManager(int headpin, int side1pin, int side2pin);
 		void initialize();
 		bool checkState();
-    bool isBalance();
+		int reportDifference();
     enum MotionState reportCurrent();
 };
 
