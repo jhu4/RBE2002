@@ -12,37 +12,49 @@ void WallSensorManager::initialize(){
 	side2.initialize();
 }
 
-enum MotionStatus WallSensorManager::reportNextState(){
-  Serial.print(head.sense());
-  Serial.print(" ");
+bool WallSensorManager::checkState(){
+//  Serial.print(head.sense());
+//  Serial.print(" ");
 //	Serial.print(side1.sense());
 //  Serial.print(" ");
 //	Serial.println(side2.sense());
-//  head.sense();
+  head.sense();
   side1.sense();
   side2.sense();
 
-  enum MotionStatus ongoingStatus =
-	if(shouldLeftTurn()){
-    lastState=currentState;
-    currentState=TURN_LEFT;
-		return TURN_LEFT;
+	if(shouldLeftTurn() && currentCommand!=TURN_LEFT){
+    lastCommand=currentCommand;
+    currentCommand=TURN_LEFT;
+    return true;
 	}
-  else if(shouldRightTurn()){
-    lastState=currentState;
-    currentState=TURN_RIGHT;
-    return TURN_RIGHT;
+  if(shouldFirstTurn() && currentCommand!=TURN_RIGHT){
+    lastCommand=currentCommand;
+    currentCommand=TURN_RIGHT;
+    return true;
   }
-	else if(shouldGoStraight()){
-    lastState=currentState;
-    currentState=GO_STRAIGHT;
-		return GO_STRAIGHT;
+  if(shouldSencondTurn() && currentCommand==TURN_RIGHT){
+    lastCommand=currentCommand;
+    currentCommand=SECOND_RIGHT_TURN;
+    return true;
+  }
+	if(shouldGoStraight() && currentCommand!=GO_STRAIGHT){
+    lastCommand=currentCommand;
+    currentCommand=GO_STRAIGHT;
+    return true;
 	}
-  else{
-    lastState=currentState;
-    currentState=TRANSITION;
-    return TRANSITION;
-  }
+  return false;
+}
+
+enum MotionState WallSensorManager::reportCurrent(){
+  return currentCommand;
+}
+
+bool WallSensorManager::isBalance(){
+  int diff=side1.sense()-side2.sense();
+  if(currentCommand==GO_STRAIGHT && side1.isSame() && side2.isSame() && abs(diff)<10){
+    return true;
+  } 
+  return false;
 }
 
 /* Private */
@@ -63,6 +75,7 @@ bool WallSensorManager::shouldSencondTurn(){
 }
 
 bool WallSensorManager::shouldGoStraight(){
-  return ((side1.isWall() && side2.isWall())||(side1.isWall() && side2.isGap()))&&(side1.isSame() && side2.isSame());
+  return ((side1.isWall() && side2.isWall())||(side1.isWall() 
+            && side2.isGap()))&&(side1.isSame() && side2.isSame());
 }
 

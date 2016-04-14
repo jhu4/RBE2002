@@ -3,8 +3,9 @@
 
 #include "WallSensor.h"
 #include "SpecialWallSensor.h"
-enum MotionStatus{
+enum MotionState{
 	TURN_RIGHT,
+	SECOND_RIGHT_TURN,
 	TURN_LEFT,
 	GO_STRAIGHT,
   TRANSITION
@@ -13,9 +14,11 @@ enum MotionStatus{
 class WallSensorManager{
 	private:
 		WallSensor side1,side2;
-   SpecialWallSensor head;
-		enum MotionStatus lastState;
-		enum MotionStatus currentState;
+    SpecialWallSensor head;
+		enum MotionState lastState;
+		enum MotionState currentState;
+    enum MotionState lastCommand;
+    enum MotionState currentCommand;
 		bool shouldSencondTurn();
 		bool shouldFirstTurn();
 		bool shouldRightTurn();
@@ -25,7 +28,9 @@ class WallSensorManager{
 	public:	
 		WallSensorManager(int headpin, int side1pin, int side2pin);
 		void initialize();
-		enum MotionStatus reportNextState();
+		bool checkState();
+    bool isBalance();
+    enum MotionState reportCurrent();
 };
 
 #endif

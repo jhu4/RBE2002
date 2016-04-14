@@ -1,7 +1,10 @@
+#include <LiquidCrystal.h>
+
 #include <TimerOne.h>
 #include "WallSensorManager.h"
 #include <Arduino.h>
 #include "LCD.h"
+
 
 LCD lcd(40,41,42,43,44,45);
 WallSensorManager ws(0,1,2);
@@ -18,22 +21,28 @@ void loop() {
 }
 
 void timerISR(){
-  enum MotionStatus status = ws.reportNextState();
-  switch(status){
-    case TURN_RIGHT:
-//      lcd.display("Right");
-      break;
-    case TURN_LEFT:
-      lcd.display("Left");
-      break;
-    case GO_STRAIGHT:
-      lcd.display("GO_STRAIGHT");
-      break;
-    case TRANSITION:
-      lcd.display("TRANSITION");
-      break;
-    default:
-      lcd.display("You suck");
+  bool hello = ws.checkState();
+  enum MotionState status = ws.reportCurrent();
+  if(hello){
+    switch(status){
+      case TURN_RIGHT:
+        lcd.display("Right");
+        break;
+      case SECOND_RIGHT_TURN:
+        lcd.display("Second right");
+        break;
+      case TURN_LEFT:
+        lcd.display("Left");
+        break;
+      case GO_STRAIGHT:
+        lcd.display("GO_STRAIGHT");
+        break;
+      case TRANSITION:
+        lcd.display("TRANSITION");
+        break;
+      default:
+        lcd.display("You suck");
+    }
   }
 }
 
