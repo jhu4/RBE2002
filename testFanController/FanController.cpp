@@ -10,6 +10,22 @@ void FanController::initialize(){
   
 }
 
+int FanController::reportPitchAngle(){
+  
+}
+
+int FanController::reportYawAngle(){
+  
+}
+
+float FanController::getCandleDistance(){
+  
+}
+
+boolean FanController::findCandle(){
+  
+}
+
 void FanController::up(){
   
 }
