@@ -27,7 +27,7 @@ bool WallSensorManager::checkState(){
     currentCommand=TURN_LEFT;
     return true;
 	}
-  if(shouldFirstTurn() && currentCommand!=TURN_RIGHT){
+  if(shouldFirstTurn() && currentCommand!=TURN_RIGHT && currentCommand!=SECOND_RIGHT_TURN){
     lastCommand=currentCommand;
     currentCommand=TURN_RIGHT;
     return true;
@@ -50,7 +50,8 @@ enum MotionState WallSensorManager::reportCurrent(){
 }
 
 int WallSensorManager::reportDifference(){
-  return (data1-data2);
+//  return (data1-data2);
+  return data2;//only for test
 }
 
 /* Private */
@@ -72,6 +73,6 @@ bool WallSensorManager::shouldSencondTurn(){
 
 bool WallSensorManager::shouldGoStraight(){
   return ((side1.isWall() && side2.isWall())||(side1.isWall() 
-            && side2.isGap()))&&(side1.isSame() && side2.isSame());
+            && side2.isGap()))&&(side1.isSame() && side2.isSame())&&(!head.isWall());
 }
 

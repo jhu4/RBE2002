@@ -4,7 +4,7 @@
 #include "Location.h"
 #include <LiquidCrystal.h>
 
-Location loca(3.50,12.23);
+Location loca(3.57,19.23);
 LCD lcd(40, 41, 42, 43, 44, 45);
 LED led(23);
 
