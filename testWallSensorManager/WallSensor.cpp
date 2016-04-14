@@ -16,6 +16,10 @@ int WallSensor::sense(){
 	return reading;
 }
 
+int WallSensor::getReading(){
+  return reading;
+}
+
 bool WallSensor::isWall(){
 	return reading>150;
 }

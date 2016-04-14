@@ -33,7 +33,7 @@ void timerISR(){
       lcd.display("TRANSITION");
       break;
     default:
-      lcd.display("You really suck");
+      lcd.display("You suck");
   }
 }
 

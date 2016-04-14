@@ -21,7 +21,8 @@ enum MotionStatus WallSensorManager::reportNextState(){
 //  head.sense();
   side1.sense();
   side2.sense();
-  
+
+  enum MotionStatus ongoingStatus =
 	if(shouldLeftTurn()){
     lastState=currentState;
     currentState=TURN_LEFT;

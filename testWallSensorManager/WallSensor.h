@@ -10,6 +10,7 @@ class WallSensor{
 	public:
 		WallSensor(int pin);
 		void initialize();
+    int getReading();
     int sense();
 		bool isWall();
 		bool isFindGap();

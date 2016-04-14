@@ -18,7 +18,7 @@ class WallFollower{
 	public:
 		WallFollower(int pin1, int pin2, MotorController mc1, MotorController mc2, Location Loca);
 		~WallFollower();
-		void initializing();
+		void initialize();
 		void followTheWall();
 		void locateCandle();
 		void stop();
