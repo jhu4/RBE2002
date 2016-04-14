@@ -2,7 +2,7 @@
 LCD lcd(40,41,42,43,44,45);
 
 void setup() {
-   lcd.initializing();
+   lcd.initialize();
 //   lcd.displaying(3,4);
 //  lcd.displaying(3.4578346796,4.21556,5);
 //  lcd.displaying("You suck");
