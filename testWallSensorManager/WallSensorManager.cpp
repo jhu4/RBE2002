@@ -62,6 +62,6 @@ bool WallSensorManager::shouldSencondTurn(){
 }
 
 bool WallSensorManager::shouldGoStraight(){
-  return (side1.isWall() && side2.isWall())||(side1.isWall() && side2.isGap());
+  return ((side1.isWall() && side2.isWall())||(side1.isWall() && side2.isGap()))&&(side1.isSame() && side2.isSame());
 }
 
