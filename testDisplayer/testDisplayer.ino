@@ -7,10 +7,7 @@
 Location loca;
 LCD lcd(40, 41, 42, 43, 44, 45);
 LED led(23);
-LED led2(22);
-LED led3(24);
-LED led4(25);
-LED led5(26);
+
 
 Displayer d(lcd, led);
 
@@ -20,6 +17,6 @@ void setup() {
 }
 
 void loop() {
-
+  d.updateLocation(loca);
 
 }
