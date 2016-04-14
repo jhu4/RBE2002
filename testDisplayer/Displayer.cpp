@@ -1,4 +1,5 @@
 #include "Arduino.h"
+#include "Displayer.h"
 #include "LCD.h"
 #include "LED.h"
 
@@ -17,6 +18,7 @@ void Displayer::initialize() {
 }
 
 void Displayer::updateLocation(Location location){
+  location.update(x, y);
   
 }
 

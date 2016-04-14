@@ -2,6 +2,7 @@
 #define DISPLAYER_H
 #include "LCD.h"
 #include "LED.h"
+#include "Location.h"
 
 class Displayer{
   private:
