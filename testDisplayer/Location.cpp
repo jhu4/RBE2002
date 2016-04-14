@@ -5,6 +5,11 @@ Location::Location(){
   y = 0;
 } 
 
+Location::Location(float xx, float yy):
+  x(xx),y(yy){
+
+} 
+
 float Location::getX(){
 	return x;
 }
