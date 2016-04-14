@@ -4,15 +4,17 @@
 #include "LED.h"
 #include "Location.h"
 
+
 class Displayer{
   private:
     LCD lcd;
-    LED led[5];
+    LED led;
+    int index;
   public:
-    Displayer(LCD lcd, LED led, LED led2, LED led3, LED led4, LED led5);
+    Displayer(LCD lcd, LED led);
     void initialize();
     void updateLocation(Location location);
     
-}
+};
 
 #endif
