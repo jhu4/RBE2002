@@ -1,8 +1,8 @@
 #include <WallFollower.h>
 #include "WallSensorManager.h"
 
-WallFollower::WallFollower(int pin1, int pin2, MotorController mc1, MotorController mc1, Location l):
-wallsensors(new WallSensor(pin1,pin2)), mcOne(mc1), mcTwo(mc2), pid(new PID), loca(l){
+WallFollower::WallFollower(int pin1,int pin2,MotorController m1,MotorController m2,Location &l, int setpoint):
+	wallsensors(pin1,pin2),mc1(m1),mc2(m2),loca(l),pid_setpoint(setpoint){
 
 }
 
@@ -11,12 +11,14 @@ WallFollower::~WallFollower(){
 	mcOne.~MotorController();
 	mcTwo.~MotorController();
 	location.~Location();
+
 }
 
 void WallFollower::initializing(){
 	WallSensorManager.initialize();
 	mcOne.initialize();
 	mcTwo.initialize();
+	pid = PID();
 }
 
 
@@ -29,5 +31,6 @@ void WallFollower::locateCandle(){
 }
 
 void WallFollower::stop(){
-
+	mcOne.setspeed(0);
+	mcTwo.setspeed(0);
 }

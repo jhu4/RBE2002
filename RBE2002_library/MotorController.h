@@ -16,7 +16,7 @@ class MotorController{
 		~MotorController();
 		float reportDeltaX();
 		float reportDeltaY();
-		void setSpeed();
+		void setSpeed(float speed);
 };
 
 #endif

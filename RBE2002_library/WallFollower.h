@@ -8,12 +8,13 @@
 class WallFollower{
 	private:
 		WallSensors wallsensors;
-		MotorController mcOne, mcTwo;
+		MotorController mc1, mc2;
 		PID pid;
 		Location Loca;
+		int pid_in;
+		int pid_out;
+		int pid_setpoint
 
-		void turnRight();
-		void turnLeft();
 
 	public:
 		WallFollower(int pin1, int pin2, MotorController mc1, MotorController mc2, Location Loca);
