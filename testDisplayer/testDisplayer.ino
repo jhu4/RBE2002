@@ -1,9 +1,22 @@
+#include "Displayer.h"
+#include "LCD.h"
+#include "LED.h"
+#include "Location.h"
+#include <LiquidCrystal.h>
+
+Location loca;
+LCD lcd(40, 41, 42, 43, 44, 45);
+LED led(23);
+
+
+Displayer d(lcd, led);
+
 void setup() {
-  // put your setup code here, to run once:
+  d.initialize();
 
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  d.updateLocation(loca);
 
 }

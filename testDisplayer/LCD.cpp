@@ -4,10 +4,10 @@ LCD::LCD(int p1, int p2, int p3, int p4, int p5, int p6):lcd(p1, p2, p3, p4, p5,
   
 }
 
-void LCD::initializing(){
+void LCD::initialize(){
   lcd.begin(16,2);
 }
-void LCD::displaying(float x, float y){
+void LCD::display(float x, float y){
   lcd.setCursor(0,0);
   lcd.print("X:");
   lcd.print(x);
@@ -16,7 +16,7 @@ void LCD::displaying(float x, float y){
 
 }
 
-void LCD::displaying(float x, float y, float z){
+void LCD::display(float x, float y, float z){
   lcd.setCursor(0,0);
   lcd.print("X:");
   lcd.print(x);
@@ -27,7 +27,7 @@ void LCD::displaying(float x, float y, float z){
   lcd.print(z);
 }
 
-void LCD::displaying(String message){
+void LCD::display(String message){
   lcd.setCursor(0,0);
   lcd.print(message);
 }
