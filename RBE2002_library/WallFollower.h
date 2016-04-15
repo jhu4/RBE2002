@@ -11,7 +11,8 @@ class WallFollower{
 		MotorController mcOne, mcTwo;
 		PID pid;
 		Location Loca;
-
+		void forward();
+		void backward();
 		void turnRight();
 		void turnLeft();
 
