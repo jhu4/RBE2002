@@ -4,6 +4,8 @@ LCD::LCD(int p1, int p2, int p3, int p4, int p5, int p6):lcd(p1, p2, p3, p4, p5,
   
 }
 
+
+
 void LCD::initialize(){
   lcd.begin(16,2);
 }

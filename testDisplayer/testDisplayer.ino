@@ -4,7 +4,7 @@
 #include "Location.h"
 #include <LiquidCrystal.h>
 
-Location loca;
+Location loca(3.57,4.6);
 LCD lcd(40, 41, 42, 43, 44, 45);
 LED led(23);
 
@@ -18,5 +18,4 @@ void setup() {
 
 void loop() {
   d.updateLocation(loca);
-
 }

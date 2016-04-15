@@ -7,11 +7,11 @@
 
 class Displayer{
   private:
-    LCD lcd;
-    LED led;
+    LCD &lcd;
+    LED &led;
     int index;
   public:
-    Displayer(LCD lcd, LED led);
+    Displayer(LCD& lcd, LED& led);
     void initialize();
     void updateLocation(Location location);
     

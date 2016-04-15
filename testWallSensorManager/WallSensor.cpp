@@ -29,7 +29,7 @@ bool WallSensor::isFindGap(){
 }
 
 bool WallSensor::isGap(){
-	return reading<30;
+	return reading<80;
 }
 
 bool WallSensor::isSame(){
