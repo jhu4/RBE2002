@@ -2,22 +2,22 @@
 #define WALLFOLLOWER_H
 
 #include <PID_v1.h>
-#include <Location>
-#include <MotorController>
+#include "Location.h"
+#include "MotorController.h"
+#include "WallSensorManager.h"
 
 class WallFollower{
 	private:
-		WallSensors wallsensors;
+		WallSensorManager m;
 		MotorController mc1, mc2;
 		PID pid;
 		Location Loca;
-		int pid_in;
-		int pid_out;
-		int pid_setpoint
-
+		LCD debugger;
+		void turnRight();
+		void turnLeft();
 
 	public:
-		WallFollower(int pin1, int pin2, MotorController mc1, MotorController mc2, Location Loca);
+		WallFollower(WallSensorManager& m, MotorController& mc1, MotorController& mc2, Location& Loca, PID& pid, LCD& lcd);
 		~WallFollower();
 		void initialize();
 		void followTheWall();

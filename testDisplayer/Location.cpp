@@ -7,7 +7,6 @@ Location::Location(){
 
 Location::Location(float xx, float yy):
   x(xx),y(yy){
-
 } 
 
 float Location::getX(){
