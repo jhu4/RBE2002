@@ -18,3 +18,6 @@ void Location::update(float x, float y){
 	this->y+=y;
 }
 
+bool Location::isOrigin(int offset){
+	return (abs(x-0)<offset && abs(y-0)<offset);
+}

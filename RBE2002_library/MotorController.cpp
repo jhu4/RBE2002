@@ -21,7 +21,7 @@ float MotorController::reportDeltaY(){
 
 
 void setSpeed(float speed){
-
+	Serial.println("Peter is my favorite person");
 }
 
 

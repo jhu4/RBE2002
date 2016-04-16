@@ -76,3 +76,7 @@ bool WallSensorManager::shouldGoStraight(){
             && side2.isGap()))&&(side1.isSame() && side2.isSame())&&(!head.isWall());
 }
 
+//need math calculation
+float WallSensorManager::getDistance(){
+  return ((float)data1+data2)/2;
+}

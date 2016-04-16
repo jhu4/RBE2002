@@ -25,6 +25,7 @@ class WallSensorManager{
 		bool shouldRightTurn();
 		bool shouldLeftTurn();
     bool shouldGoStraight();
+    float getDistance();
 
 	public:	
 		WallSensorManager(int headpin, int side1pin, int side2pin);

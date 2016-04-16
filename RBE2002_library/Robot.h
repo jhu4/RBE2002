@@ -11,12 +11,20 @@ class Robot{
 		FanController fancontroller;
 		WallFollower wallfollower;
 		Displayer displayer;
-		Location loca;
+		Location location;
+		LightSensor lightsensor;
+		int yawAngle,pitchAngle;
+		float deltaX,deltaY,Z;
+		bool isfindCandle;
+		void locateInYaw();
+		void locateInPitch();
+		void returnToOrigin();
 
 	public:
-		Robot(FanController f, Displayer d, WallFollower w);
+		Robot(Location& l,FanController f, Displayer d, WallFollower w, LightSensor ls);
 		~Robot();
 		void initializing();
 		void robotGO();
+		void locateCandle();
 };
 #endif
