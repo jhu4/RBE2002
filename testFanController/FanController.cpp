@@ -1,45 +1,77 @@
 #include "FanController.h"
 
-FanController::FanController(Servo _yaw, Servo _pitch):
-  yaw(_yaw),
-  pitch(_pitch){
-    
+FanController::FanController(int yaw, int pitch):
+  _yaw(yaw), _pitch(pitch) {
+
+}
+
+void FanController::initialize() {
+  yawServo.attach(_yaw);
+  pitchServo.attach(_pitch);
+  posPitch = 90;
+  posYaw = 90;
+  pitchServo.write(posPitch);
+}
+
+int FanController::reportPitchAngle() {
+
+}
+
+int FanController::reportYawAngle() {
+
+}
+
+float FanController::getCandleDistance() {
+
+}
+
+bool FanController::findCandle() {
+
+}
+
+bool FanController::up() {
+  if (posPitch == 180) {
+    return false;
   }
-
-void FanController::initialize(){
-  
+  else {
+    posPitch++;
+    pitchServo.write(posPitch);
+    return true;
+  }
 }
 
-int FanController::reportPitchAngle(){
-  
+
+bool FanController::down() {
+  if (posPitch == 20) {
+    return false;
+  }
+  else {
+    posPitch--;
+    pitchServo.write(posPitch);
+    return true;
+  }
 }
 
-int FanController::reportYawAngle(){
-  
+bool FanController::left() {
+  if (posYaw == 180) {
+    return false;
+  }
+  else {
+    posYaw++;
+    pitchServo.write(posYaw);
+    return true;
+  }
 }
 
-float FanController::getCandleDistance(){
-  
-}
-
-boolean FanController::findCandle(){
-  
-}
-
-void FanController::up(){
-  
-}
-
-void FanController::down(){
-  
-}
-
-void FanController::left(){
-  
-}
-
-void FanController::right(){
-  
+bool FanController::right() {
+  if (posYaw == 180) {
+    return false;
+  }
+  else {
+    posYaw++;
+    pitchServo.write(posYaw);
+    return true;
+  }
 }
 
 

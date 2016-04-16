@@ -3,24 +3,27 @@
 #include <Servo.h>
 #include "LightSensor.h"
 
-class FanController{
+class FanController {
   private:
-    Servo yaw;
-    Servo pitch;
-    LightSensor lightsensor;
+    int _yaw;
+    int _pitch;
     int reportPitchAngle();
     int reportYawAngle();
     float getCandleDistance();
-    boolean findCandle();
-    
+    bool findCandle();
+
   public:
-    FanController(Servo yaw, Servo pitch);
-    
+
+    FanController(int _yaw, int _pitch);
+    Servo yawServo;
+    Servo pitchServo;
+    int posPitch; 
+    int posYaw; 
     void initialize();
-    void up();
-    void down();
-    void left();
-    void right();
+    bool up();
+    bool down();
+    bool left();
+    bool right();
 };
 
 #endif
