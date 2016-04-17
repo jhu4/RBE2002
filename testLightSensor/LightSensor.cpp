@@ -20,7 +20,7 @@ void LightSensor::initialize(){
 bool LightSensor::sense(){
 	lastReading = currentReading;
 	currentReading = analogRead(Apin);
-	isCandle = digitalRead(Dpin);
+	isCandle = (bool) digitalRead(Dpin);
 	accumulator+=currentReading;
 	counter++;
 	averageReading=accumulator/counter;
@@ -36,7 +36,7 @@ int LightSensor::getReading(){
 
 bool LightSensor::isDetectLight(){
 	// return currentReading>50 && currentReading<700;
-	return isCandle;
+	return !isCandle;
 }
 
 bool LightSensor::isGetCloser(){
