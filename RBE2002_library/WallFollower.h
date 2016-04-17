@@ -24,8 +24,7 @@ class WallFollower{
 		void turnLeft();
 
 	public:
-		WallFollower(WallSensorManager& m,MotorController& mc1,MotorController& mc2,
-			Location& Loca,LCD& lcd,double setpoint,int kp,int ki,int kd);
+		WallFollower(WallSensorManager& m, MotorController& mc1, MotorController& mc2, Location& Loca, LCD& lcd,int& pid_in, int& pid_out);
 		~WallFollower();
 		void initialize();
 		void followTheWall();
