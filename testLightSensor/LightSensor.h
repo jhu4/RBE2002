@@ -3,8 +3,10 @@
 
 class LightSensor{
 	private:
-		const int pin;
+		const int Apin;
+		const int Dpin;
 		const int offset;
+		bool isCandle;
 		int averageReading;
 		long accumulator;
 		int counter;
@@ -12,7 +14,7 @@ class LightSensor{
 		int lastReading;
 
 	public:
-		LightSensor(int pin, int ofs);
+		LightSensor(int Apin, int Dpin, int ofs);
     bool sense();
 		void initialize();
 		bool isDetectLight();

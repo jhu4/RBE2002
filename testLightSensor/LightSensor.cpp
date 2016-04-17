@@ -1,14 +1,17 @@
 #include "LightSensor.h"
 #include <Arduino.h>
 
-LightSensor::LightSensor(int p, int ofs):
-pin(p),offset(ofs),
-averageReading(0),counter(0),accumulator(0),lastReading(0){
+LightSensor::LightSensor(int Ap, int Dp, int ofs):
+Apin(Ap), Dpin(Dp)
+,offset(ofs)
+,isCandle(false)
+,averageReading(0),counter(0),accumulator(0),lastReading(0){
 
 }
 
 void LightSensor::initialize(){
-	pinMode(pin, INPUT);
+	pinMode(Apin, INPUT);
+	pinMode(Dpin, INPUT);
 }
 
 /** Sense the flame
@@ -16,7 +19,8 @@ void LightSensor::initialize(){
  */
 bool LightSensor::sense(){
 	lastReading = currentReading;
-	currentReading = analogRead(pin);
+	currentReading = analogRead(Apin);
+	isCandle = digitalRead(Dpin);
 	accumulator+=currentReading;
 	counter++;
 	averageReading=accumulator/counter;
@@ -31,7 +35,8 @@ int LightSensor::getReading(){
 }
 
 bool LightSensor::isDetectLight(){
-	return currentReading>50 && currentReading<700;
+	// return currentReading>50 && currentReading<700;
+	return isCandle;
 }
 
 bool LightSensor::isGetCloser(){
