@@ -11,6 +11,7 @@ class Location{
 		float getX();
 		float getY();
 		void update(float deltaX, float deltaY);
+		bool isOrigin(int offset);
   
 };
 

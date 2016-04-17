@@ -13,10 +13,11 @@ class LightSensor{
 
 	public:
 		LightSensor(int pin, int ofs);
-    bool watch();
+    bool sense();
 		void initialize();
 		bool isDetectLight();
 		bool isGetCloser();
+		int getReading();
 };
 
 #endif

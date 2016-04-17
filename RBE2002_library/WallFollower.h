@@ -5,6 +5,7 @@
 #include "Location.h"
 #include "MotorController.h"
 #include "WallSensorManager.h"
+#include "LightSensor.h"
 
 class WallFollower{
 	private:
@@ -13,6 +14,10 @@ class WallFollower{
 		PID pid;
 		Location Loca;
 		LCD debugger;
+		bool isStop;
+		double pid_in;
+		double pid_out;
+		double pid_setpoint;
 		void forward();
 		void backward();
 		void turnRight();

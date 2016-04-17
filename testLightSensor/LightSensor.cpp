@@ -14,7 +14,7 @@ void LightSensor::initialize(){
 /** Sense the flame
  * @return if something unusual happened
  */
-bool LightSensor::watch(){
+bool LightSensor::sense(){
 	lastReading = currentReading;
 	currentReading = analogRead(pin);
 	accumulator+=currentReading;
@@ -26,9 +26,12 @@ bool LightSensor::watch(){
 	return false;
 }
 
+int LightSensor::getReading(){
+	return currentReading;
+}
 
 bool LightSensor::isDetectLight(){
-	return currentReading>50 && currentReading<500;
+	return currentReading>50 && currentReading<700;
 }
 
 bool LightSensor::isGetCloser(){
