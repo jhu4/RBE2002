@@ -43,3 +43,12 @@ bool LightSensor::isGetCloser(){
 	return lastReading!=0 &&((lastReading-currentReading)>60);
 }
 
+float LightSensor::getDistance(){
+  if(currentReading>400){
+    return -999;
+  }
+  if(currentReading<=400 && currentReading>45){
+    return (5*(float)currentReading/206+5555/103);
+  }
+	return (log((float)currentReading)-2.57)/0.022;
+} 

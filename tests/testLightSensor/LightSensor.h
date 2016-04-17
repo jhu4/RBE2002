@@ -20,6 +20,7 @@ class LightSensor{
 		bool isDetectLight();
 		bool isGetCloser();
 		int getReading();
+		float getDistance();
 };
 
 #endif

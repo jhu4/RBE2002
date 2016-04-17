@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 #include <TimerOne.h>
 #include "WallSensor.h"
 

@@ -1,12 +1,12 @@
 #include "LightSensor.h"
 #include <TimerOne.h>
 
-LightSensor ls(0,7, 50);
+LightSensor ls(2,7, 50);
 void setup() {
   ls.initialize();
   Serial.begin(9600);
   Timer1.initialize(50000);
-  Timer1.attachInterrupt(getDataExperiment);
+  Timer1.attachInterrupt(getDistance);
 }
 
 void testDetectLight(){
@@ -24,10 +24,11 @@ void getDataExperiment(){
   Serial.println(ls.getReading());
 }
 
+void getDistance(){
+  Serial.println(ls.getDistance());
+}
+
 void loop() {
   ls.sense();
-//  Serial.println(ls.getReading());
 }
-//1000 Normal light
-//
 
