@@ -3,6 +3,8 @@
 
 #include "WallSensor.h"
 #include "SpecialWallSensor.h"
+#include "LCD.h"
+
 enum MotionState{
 	TURN_RIGHT,
 	SECOND_RIGHT_TURN,
