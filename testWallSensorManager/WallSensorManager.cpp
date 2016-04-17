@@ -2,7 +2,8 @@
 #include <Arduino.h>
 
 WallSensorManager::WallSensorManager(int p, int p1, int p2):
-head(p),side1(p1),side2(p2){
+  head(p),side1(p1),side2(p2)
+  ,distance1(0),distance2(0){
 
 }
 
@@ -49,11 +50,6 @@ enum MotionState WallSensorManager::reportCurrent(){
   return currentCommand;
 }
 
-int WallSensorManager::reportDifference(){
-//  return (data1-data2);
-  return data2;//only for test
-}
-
 /* Private */
 bool WallSensorManager::shouldRightTurn(){
 	return (shouldFirstTurn()||shouldSencondTurn());
@@ -77,6 +73,53 @@ bool WallSensorManager::shouldGoStraight(){
 }
 
 //need math calculation
-float WallSensorManager::getDistance(){
-  return ((float)data1+data2)/2;
+void WallSensorManager::mapDistance(){
+  float one = side1.getReading();
+  float two = side2.getReading();
+
+  if(one<=576 && one>394){
+    distance1=(940-one)/91; 
+  }
+  if(one<=394 && one>293){
+    distance1=(1394-2*one)/101;
+  }
+  if(one<=293 && one>100){
+    distance1=(6.51-log(one))/0.1;
+  }
+  if(one<=100 && one>70){
+    distance1=100/3-2*one/15;
+  }
+  if(one<=70 && one>=40){
+    distance1=38-one/5;
+  }
+  if(one<40){
+    debugger.display("WM:mD:one");
+  }
+  /////
+  if(two<=542 && two>378){
+    distance2=435/41-two/82;
+  }
+  if(two<=378 && two>294){
+    distance2=15-two/42;
+  }
+  if(two<=294 && two>134){
+    distance2=(6.2-log(two))/0.066;
+  }
+  if(two<=134 && two>118){
+    distance2=107/2-two/4;
+  }
+  if(two<=118 && two>=100){
+    distance2=190/3-two/3;
+  }
+  if(two<100){
+    debugger.display("WM:mD:two");
+  }
+}
+
+float WallSensorManager::getDistance1(){
+  return distance1;
+}
+
+float WallSensorManager::getDistance2(){
+  return distance2;
 }
