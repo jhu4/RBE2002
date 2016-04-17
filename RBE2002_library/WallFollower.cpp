@@ -61,3 +61,13 @@ void WallFollower::turnRight(){
 void WallFollower::turnLeft(){
 	pid.setMode(MANUAL);
 }
+
+void forward(){
+	pid.setMode(AUTOMATIC);
+	
+}
+
+
+void backward(){
+	pid.setMode(AUTOMATIC);
+}
