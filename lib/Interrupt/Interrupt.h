@@ -5,6 +5,8 @@
 
 #define MAX_INTERRUPTS 10
 
+typedef void (*vfunc)();
+
 class Interrupt {
   private:
 
@@ -13,6 +15,8 @@ class Interrupt {
     Interrupt();
     static void Register(int interruptNum, Interrupt* interrupt);
     static void Interrupt_0();
+    static void Interrupt_1();
+    static vfunc getInterrupt(int num);
     virtual void isr();
 };
 

@@ -14,6 +14,18 @@ void Interrupt::Interrupt_0(){
   ISRVectorTable[0]->isr();
 }
 
+void Interrupt::Interrupt_1(){
+  ISRVectorTable[1]->isr();
+}
+
+vfunc Interrupt::getInterrupt(int num){
+  if (num == 0 ){
+    return Interrupt::Interrupt_0;
+  } else {
+    return Interrupt::Interrupt_1;
+  }
+}
+
 void Interrupt::isr(){
 }
 

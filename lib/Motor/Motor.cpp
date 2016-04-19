@@ -38,11 +38,16 @@ void Motor::setSpeed(int speed){
 	bool backward = (speed < 0);
 
 	if(backward && dir){
+		speed = -speed;
 		this->dir = 0;
 		setDir(0);
 	} else if (!backward && !dir){
 		this->dir = 1;
 		setDir(1);
+	}
+
+	if (speed > 255){
+		speed = 255;
 	}
 
 	analogWrite(speedPin, speed);
