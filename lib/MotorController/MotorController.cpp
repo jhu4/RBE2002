@@ -2,20 +2,24 @@
 #define TICKTOMM 0.0687223393
 
 
-MotorController::MotorController(Motor* motor, Encoder* encoder):
+MotorController::MotorController(Motor* motor, Encoder* encoder, double kp, double ki, double kd):
 motor(motor),
 encoder(encoder),
 prevTime(0),
 input(0),
 output(0),
 setPoint(0),
-pid(&input,&output,&setPoint,0,0,0,DIRECT){
+pid(&input,&output,&setPoint,kp,ki,kd,DIRECT){
 	pid.SetMode(AUTOMATIC);
 }
 
 
 void MotorController::setSpeed(double speed){
 	setPoint = speed;
+}
+
+double MotorController::getOutput(){
+	return  output;
 }
 
 void MotorController::update(){

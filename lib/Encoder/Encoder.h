@@ -2,7 +2,6 @@
 #define ENCODER_H
 
 #include <Arduino.h>
-//#include "EncoderInterrupt.h"
 #include "Interrupt.h"
 
 

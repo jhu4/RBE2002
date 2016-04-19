@@ -17,10 +17,11 @@ class MotorController{
 
 	public:
 
-		MotorController(Motor* motor, Encoder* encoder);
+		MotorController(Motor* motor, Encoder* encoder, double kp, double ki, double kd);
 		double getSpeed();
 		void setSpeed(double speed);
 		void update();
+		double getOutput();
 		~MotorController();
 
 };
