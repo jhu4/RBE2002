@@ -18,8 +18,6 @@ class WallSensorManager{
 		WallSensor side1,side2;
     SpecialWallSensor head;
     LCD debugger;
-		enum MotionState lastState;
-		enum MotionState currentState;
     enum MotionState lastCommand;
     enum MotionState currentCommand;
     int data1, data2;

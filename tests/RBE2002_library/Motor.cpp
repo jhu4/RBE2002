@@ -1,40 +1,11 @@
-#include "Motor.h"
-#include <Arduino.h>
+#include <Motor.h>
 
 
-Motor::Motor(int speedPin, int dirAPin, int dirBPin):
-speedPin(speedPin),
-dirAPin(dirAPin),
-dirBPin(dirBpin),
-dir(1),
-speed(0){
-	setDir(FORWARD);
+Motor::Motor(int p1, int p2):pin(p1),directionpin(p2){
+
 }
 
-Motor::setDir(bool forwardDir){
-	if (forwardDir){
-		digitalWrite(dirAPin, HIGH);
-		digitalWrite(dirBPin, LOW);
-	} else {
-		digitalWrite(dirAPin, LOW);
-		digitalWrite(dirBPin, HIGH);
-	}
+Motor::~Motor(){
+
+	
 }
-
-Motor::setSpeed(int speed){
-	this.speed = speed;
-
-	bool backward = (speed < 0);
-
-	if(backward && dir){
-		this.dir = 0;
-		setDir(0);
-	} else if (!backward && !dir){
-		this.dir = 1;
-		setDir(1);
-	}
-
-	analogWrite(speedPin, speed);
-}
-
-Motor::~Motor(){}
