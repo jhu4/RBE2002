@@ -22,7 +22,7 @@ void PID::setOutputLimits(double min, double max){
 
 bool PID::compute(){
   if ((millis() - lastTime) > timeIter){
-    double error = (*setPoint) - (*input);
+    double error = ((*setPoint) - (*input))*timeIter/1000;
 
     double out = (kp*error)+(ki*iTerm)+(kd*(error-lastError));
 
