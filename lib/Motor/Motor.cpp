@@ -17,7 +17,12 @@ invert(invert){
 	setSpeed(0);
 }
 
+bool Motor::isInvert(){
+	return invert;
+}
+
 void Motor::setDir(bool forwardDir){
+
 	if (this->invert){
 		forwardDir = !forwardDir;
 	}
@@ -33,15 +38,22 @@ void Motor::setDir(bool forwardDir){
 }
 
 void Motor::setSpeed(int speed){
+	//Serial.println("call");
 	this->speed = speed;
 
-	bool backward = (speed < 0);
+	bool backward = false;
+	if (speed < 0){
+		backward = true;
+		speed = -speed;
+	};
 
 	if(backward && dir){
-		speed = -speed;
+		//Serial.println("change!");
+		//speed = -speed;
 		this->dir = 0;
 		setDir(0);
 	} else if (!backward && !dir){
+		//Serial.println("change!");
 		this->dir = 1;
 		setDir(1);
 	}

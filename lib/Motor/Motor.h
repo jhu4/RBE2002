@@ -17,6 +17,7 @@ class Motor{
 		Motor(int speedPin, int dirAPin, int dirBPin, bool invert);
 		void setDir(bool forwardDir);
 		void setSpeed(int speed);
+		bool isInvert();
 		~Motor();
 };
 
