@@ -21,7 +21,6 @@ class MotorController{
 		double getSpeed();
 		void setSpeed(double speed);
 		void update();
-		double getOutput();
 		~MotorController();
 
 };

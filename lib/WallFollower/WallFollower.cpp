@@ -13,7 +13,7 @@ WallFollower::~WallFollower(){
 	wallsensors.~WallSensor();
 	mc1.~MotorController();
 	mc2.~MotorController();
-	
+
 	location.~Location();
 }
 
@@ -64,7 +64,7 @@ void WallFollower::turnLeft(){
 
 void forward(){
 	pid.setMode(AUTOMATIC);
-	
+
 }
 
 

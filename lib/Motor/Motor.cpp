@@ -17,9 +17,13 @@ invert(invert){
 	setSpeed(0);
 }
 
+bool Motor::isInvert(){
+	return invert;
+}
+
 void Motor::setDir(bool forwardDir){
 	if (this->invert){
-		forwardDir = !forwardDir;
+		//forwardDir = !forwardDir;
 	}
 
 	if (forwardDir){
