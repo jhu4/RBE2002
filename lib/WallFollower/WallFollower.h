@@ -6,14 +6,14 @@
 #include "MotorController.h"
 #include "WallSensorManager.h"
 #include "LightSensor.h"
-
 class WallFollower{
 	private:
-		WallSensorManager m;
-		MotorController mc1, mc2;
 		PID pid;
-		Location Loca;
-		LCD debugger;
+		WallSensorManager& m;
+		MotorController& mc1;
+		MotorController& mc2;
+		Location& loca;
+		LCD& debugger;
 		bool isStop;
 		double pid_in;
 		double pid_out;
@@ -24,7 +24,7 @@ class WallFollower{
 		void turnLeft();
 
 	public:
-		WallFollower(WallSensorManager& m, MotorController& mc1, MotorController& mc2, Location& Loca, LCD& lcd,int& pid_in, int& pid_out);
+		WallFollower(WallSensorManager& m, MotorController& mc1, MotorController& mc2, Location& Loca, LCD& lcd,double& pid_in, double& pid_out);
 		~WallFollower();
 		void initialize();
 		void followTheWall();

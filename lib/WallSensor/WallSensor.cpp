@@ -6,7 +6,7 @@ pin(p),
 reading(0),lastreading(0){
 }
 
-void WallSensor::initializing(){
+void WallSensor::initialize(){
 	pinMode(pin, INPUT);
 }
 
@@ -16,18 +16,22 @@ int WallSensor::sense(){
 	return reading;
 }
 
+int WallSensor::getReading(){
+  return reading;
+}
+
 bool WallSensor::isWall(){
 	return reading>150;
 }
 
 bool WallSensor::isFindGap(){
-	return ((lastreading-reading)>50)&&(reading<20);
+	return ((lastreading-reading)>70)&&(reading<30);
 }
 
 bool WallSensor::isGap(){
-	return reading<20;
+	return reading<80;
 }
 
 bool WallSensor::isSame(){
-	return abs(lastreading-reading)<10;
+	return abs(lastreading-reading)<20;
 }

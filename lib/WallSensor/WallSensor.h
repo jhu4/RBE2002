@@ -9,13 +9,14 @@ class WallSensor{
 
 	public:
 		WallSensor(int pin);
-		void initializing();
+		void initialize();
+    int getReading();
     int sense();
 		bool isWall();
 		bool isFindGap();
 		bool isGap();
 		bool isSame();
-
+		
 };
 
 #endif

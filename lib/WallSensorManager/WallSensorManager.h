@@ -17,7 +17,7 @@ class WallSensorManager{
 	private:
 		WallSensor side1,side2;
     SpecialWallSensor head;
-    LCD debugger;
+    LCD& debugger;
     enum MotionState lastCommand;
     enum MotionState currentCommand;
     int data1, data2;
@@ -28,11 +28,11 @@ class WallSensorManager{
 		bool shouldLeftTurn();
     bool shouldGoStraight();
 
-	public:
+	public:	
 		WallSensorManager(int headpin, int side1pin, int side2pin,LCD& lcd);
 		void initialize();
 		bool checkState();
-    enum MotionState getState();
+    enum MotionState reportCurrent();
     void mapDistance();
     float getDistance1();
     float getDistance2();

@@ -15,17 +15,12 @@ void WallSensorManager::initialize(){
 }
 
 bool WallSensorManager::checkState(){
-//  Serial.print(head.sense());
-//  Serial.print(" ");
-//	Serial.print(side1.sense());
-//  Serial.print(" ");
-//	Serial.println(side2.sense());
   head.sense();
   data1=side1.sense();
   data2=side2.sense();
-  // Serial.print(data2);
-  // Serial.print("\t");
-
+  
+  this->mapDistance();
+  
 	if(shouldLeftTurn() && currentCommand!=TURN_LEFT){
     lastCommand=currentCommand;
     currentCommand=TURN_LEFT;
@@ -97,7 +92,7 @@ void WallSensorManager::mapDistance(){
     distance1=38-one/5;
   }
   if(one<40){
-    distance1=0;
+    distance1=30;
     debugger.display("WM:mD:one");
   }
   /////
@@ -118,7 +113,7 @@ void WallSensorManager::mapDistance(){
     distance2=190/3-two/3;
   }
   if(two<100){
-    distance2=0;
+    distance2=30;
     debugger.display("WM:mD:two");
   }
 }
