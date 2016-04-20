@@ -5,8 +5,8 @@
 #include "WallFollower.h"
 #define enablePin 11
 
-int kd=0;
-int kp=0;
+double kd=0;
+double kp=0;
 
 Encoder* eLeft = new Encoder(2,3);
 Encoder* eRight = new Encoder(18,19);
