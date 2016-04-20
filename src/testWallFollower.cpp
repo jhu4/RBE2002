@@ -20,15 +20,16 @@ WallSensorManager ms(0,1,2,lcd);
 WallFollower wf(ms,leftControl,rightControl,loca,lcd,kp,kd);
 
 void setup() {
-  Serial.begin(9600);
-  pinMode(enablePin, OUTPUT);
-  digitalWrite(enablePin, HIGH);
-//  leftControl.setSpeed(110);
-  wf.initialize();
+  // Serial.begin(9600);
+  // pinMode(enablePin, OUTPUT);
+  // digitalWrite(enablePin, HIGH);
+  // rightControl.setSpeed(0);
+  // leftControl.setSpeed(0);
+  // wf.initialize();
 }
 
 
 void loop() {
-//  leftControl.update();
-  wf.followTheWall();
+ // rightControl.update();
+  // wf.followTheWall();
 }

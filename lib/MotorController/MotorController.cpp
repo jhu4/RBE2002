@@ -13,6 +13,9 @@ pid(&input,&output,&setPoint,kp,ki,kd,DIRECT){
 	pid.SetMode(AUTOMATIC);
 }
 
+void MotorController::initialize(){
+
+}
 
 void MotorController::setSpeed(double speed){
 	setPoint = speed;

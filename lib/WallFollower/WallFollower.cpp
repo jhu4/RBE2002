@@ -6,14 +6,14 @@ WallFollower::WallFollower(WallSensorManager& m_in, MotorController& m1, MotorCo
 	,loca(l)
 	,debugger(lcd)
 	,pid_in(pid_i),pid_out(pid_o),pid_setpoint(0)
-  ,pid(&pid_in,&pid_out,&pid_setpoint,2,1,2,DIRECT){
+  ,pid(&pid_in,&pid_out,&pid_setpoint,5,1,2,DIRECT){
 }
 
 WallFollower::~WallFollower(){
 	m.~WallSensorManager();
 	mc1.~MotorController();
 	mc2.~MotorController();
-	
+
 	loca.~Location();
 }
 

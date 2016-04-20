@@ -8,7 +8,6 @@
 #include "LightSensor.h"
 class WallFollower{
 	private:
-		PID pid;
 		WallSensorManager& m;
 		MotorController& mc1;
 		MotorController& mc2;
@@ -22,6 +21,7 @@ class WallFollower{
 		void backward();
 		void turnRight();
 		void turnLeft();
+		PID pid;
 
 	public:
 		WallFollower(WallSensorManager& m, MotorController& mc1, MotorController& mc2, Location& Loca, LCD& lcd,double& pid_in, double& pid_out);
