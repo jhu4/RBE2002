@@ -13,7 +13,7 @@ WallFollower::~WallFollower(){
 	wallsensors.~WallSensor();
 	mc1.~MotorController();
 	mc2.~MotorController();
-	
+
 	location.~Location();
 }
 
@@ -28,7 +28,7 @@ void WallFollower::initializing(){
 
 void WallFollower::followTheWall(){
 	if(m.checkState()){
-		switch(m.reportCurrent()){
+		switch(m.getState()){
 			case TURN_RIGHT:
 				turnRight();
 				break;
@@ -36,18 +36,19 @@ void WallFollower::followTheWall(){
 				turnRight();
 				break;
 			case TURN_LEFT:
+				turnLeft();
 				break;
 			case GO_STRAIGHT:
+				forward();
 				break;
 			default:
 				break;
 		}
 	}
+	m1.update();
+	m2.update();
 }
 
-void WallFollower::locateCandle(){
-
-}
 
 void WallFollower::stop(){
 	mc1.setspeed(0);
@@ -56,15 +57,20 @@ void WallFollower::stop(){
 
 void WallFollower::turnRight(){
 	pid.setMode(MANUAL);
+	m1.setspeed(-110);
+	m2.setspeed(110);
 }
 
 void WallFollower::turnLeft(){
 	pid.setMode(MANUAL);
+	m2.setspeed(-110);
+	m1.setspeed(110);
 }
 
 void forward(){
 	pid.setMode(AUTOMATIC);
-	
+	m1.setspeed(110);
+	m2.setspeed(110);
 }
 
 
