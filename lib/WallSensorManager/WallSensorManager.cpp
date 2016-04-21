@@ -21,7 +21,7 @@ bool WallSensorManager::checkState(){
 
   this->mapDistance();
 
-	if(shouldLeftTurn() && currentCommand!=TURN_LEFT){
+	if(shouldLeftTurn() && currentCommand!=TURN_LEFT && lastCommand==GO_STRAIGHT){
     lastCommand=currentCommand;
     currentCommand=TURN_LEFT;
     return true;
@@ -36,7 +36,7 @@ bool WallSensorManager::checkState(){
     currentCommand=SECOND_RIGHT_TURN;
     return true;
   }
-	if(shouldGoStraight() && currentCommand!=GO_STRAIGHT){
+	if(shouldGoStraight() && currentCommand!=GO_STRAIGHT && !isTransition()){
     lastCommand=currentCommand;
     currentCommand=GO_STRAIGHT;
     return true;
@@ -49,6 +49,13 @@ enum MotionState WallSensorManager::getState(){
 }
 
 /* Private */
+bool WallSensorManager::isTransition(){
+  if(side1.isSame()&&side2.isSame()){
+    return false;
+  }
+  return true;
+}
+
 bool WallSensorManager::shouldRightTurn(){
 	return (shouldFirstTurn()||shouldSencondTurn());
 }

@@ -27,6 +27,7 @@ class WallSensorManager{
 		bool shouldRightTurn();
 		bool shouldLeftTurn();
     bool shouldGoStraight();
+		bool isTransition();
 
 	public:
 		WallSensorManager(int headpin, int side1pin, int side2pin,LCD& lcd);
