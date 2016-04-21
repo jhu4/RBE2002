@@ -28,11 +28,11 @@ class WallSensorManager{
 		bool shouldLeftTurn();
     bool shouldGoStraight();
 
-	public:	
+	public:
 		WallSensorManager(int headpin, int side1pin, int side2pin,LCD& lcd);
 		void initialize();
 		bool checkState();
-    enum MotionState reportCurrent();
+    enum MotionState getState();
     void mapDistance();
     float getDistance1();
     float getDistance2();

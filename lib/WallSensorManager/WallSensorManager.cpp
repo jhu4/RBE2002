@@ -2,9 +2,9 @@
 #include <Arduino.h>
 
 WallSensorManager::WallSensorManager(int p, int p1, int p2, LCD& lcd):
-  head(p),side1(p1),side2(p2)
-  ,distance1(0),distance2(0)
-  ,debugger(lcd){
+  side1(p1),side2(p2),head(p)
+  ,debugger(lcd)
+  ,distance1(0),distance2(0){
 
 }
 
@@ -18,9 +18,9 @@ bool WallSensorManager::checkState(){
   head.sense();
   data1=side1.sense();
   data2=side2.sense();
-  
+
   this->mapDistance();
-  
+
 	if(shouldLeftTurn() && currentCommand!=TURN_LEFT){
     lastCommand=currentCommand;
     currentCommand=TURN_LEFT;
@@ -44,7 +44,7 @@ bool WallSensorManager::checkState(){
   return false;
 }
 
-enum MotionState WallSensorManager::reportCurrent(){
+enum MotionState WallSensorManager::getState(){
   return currentCommand;
 }
 
@@ -66,7 +66,7 @@ bool WallSensorManager::shouldSencondTurn(){
 }
 
 bool WallSensorManager::shouldGoStraight(){
-  return ((side1.isWall() && side2.isWall())||(side1.isWall() 
+  return ((side1.isWall() && side2.isWall())||(side1.isWall()
             && side2.isGap()))&&(side1.isSame() && side2.isSame())&&(!head.isWall());
 }
 
@@ -76,7 +76,7 @@ void WallSensorManager::mapDistance(){
   float two = side2.getReading();
 
   if(one<=576 && one>394){
-    distance1=(940-one)/91; 
+    distance1=(940-one)/91;
   }
   if(one<=394 && one>293){
     distance1=(1394-2*one)/101;

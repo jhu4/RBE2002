@@ -13,6 +13,7 @@ class WallFollower{
 		MotorController& mc2;
 		Location& loca;
 		LCD& debugger;
+		int speed;
 		bool isStop;
 		double pid_in;
 		double pid_out;
@@ -24,7 +25,7 @@ class WallFollower{
 		PID pid;
 
 	public:
-		WallFollower(WallSensorManager& m, MotorController& mc1, MotorController& mc2, Location& Loca, LCD& lcd,double& pid_in, double& pid_out);
+		WallFollower(WallSensorManager& m, MotorController& mc1, MotorController& mc2, Location& Loca, LCD& lcd,double kp, double ki, double kd,int s);
 		~WallFollower();
 		void initialize();
 		void followTheWall();

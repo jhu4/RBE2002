@@ -21,8 +21,8 @@
 // 	pinMode(enablePin, OUTPUT);
 // 	digitalWrite(enablePin, HIGH);
 //
-// 	leftControl->setSpeed(220);
-// 	rightControl->setSpeed(220);
+// 	leftControl->setSpeed(50);
+// 	rightControl->setSpeed(50);
 // }
 //
 // int x = -220;
