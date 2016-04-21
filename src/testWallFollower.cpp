@@ -23,7 +23,7 @@ WallSensor sws(0,160);
 WallSensor w1(1,90);
 WallSensor w2(2,120);
 LCD lcd(40,41,42,43,44,45);
-WallSensorManager wm(sws,w1,w2,lcd,3500);
+WallSensorManager wm(sws,w1,w2,lcd,3200);
 WallFollower wf(wm,leftControl,rightControl,loca,lcd,40,0,15,100);
 //works really well in (10,0,0)
 //overshoot a little (15,0,0),(20,0,0)
