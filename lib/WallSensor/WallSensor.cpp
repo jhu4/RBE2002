@@ -1,9 +1,10 @@
 #include "WallSensor.h"
 #include <Arduino.h>
 
-WallSensor::WallSensor(int p):
-pin(p),
-reading(0),lastreading(0){
+WallSensor::WallSensor(int p, int w):
+	pin(p)
+	,reading(0),lastreading(0)
+	,wallValue(w){
 }
 
 void WallSensor::initialize(){
@@ -21,7 +22,7 @@ int WallSensor::getReading(){
 }
 
 bool WallSensor::isWall(){
-	return reading>140;
+	return reading>wallValue;
 }
 
 bool WallSensor::isFindGap(){
@@ -34,4 +35,8 @@ bool WallSensor::isGap(){
 
 bool WallSensor::isSame(){
 	return abs(lastreading-reading)<20;
+}
+
+bool WallSensor::notWall(){
+	return reading<130;
 }

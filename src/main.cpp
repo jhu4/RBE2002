@@ -32,13 +32,14 @@
 // }
 //
 // #include "LCD.h"
-// #include "SpecialWallSensor.h"
 // #include "WallSensor.h"
+// #include "WallSensorManager.h"
 // #include <Arduino.h>
-// SpecialWallSensor sws(0);
-// WallSensor w1(1);
-// WallSensor w2(2);
+// WallSensor sws(0,160);
+// WallSensor w1(1,90);
+// WallSensor w2(2,120);
 // LCD lcd(40,41,42,43,44,45);
+// WallSensorManager wm(sws,w1,w2,lcd,3500);
 // void setup(){
 //   sws.initialize();
 //   w1.initialize();
@@ -47,9 +48,8 @@
 //   // sws.initialize();
 // }
 // void loop(){
-//   sws.sense();
-//   w1.sense();
-//   w2.sense();
-//   lcd.display((float)w1.getReading(),(float)w2.getReading());
+//   wm.checkState();
+//   lcd.display((float)wm.getDistance1(),(float)wm.getDistance2());
+//   // lcd.display((float)w2.isWall(),(float)w1.isWall());
 //   lcd.display((float)sws.getReading());
 // }

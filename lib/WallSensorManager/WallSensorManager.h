@@ -2,8 +2,8 @@
 #define WALLSENSORMANAGER_H
 
 #include "WallSensor.h"
-#include "SpecialWallSensor.h"
 #include "LCD.h"
+#include <Arduino.h>
 
 enum MotionState{
 	TURN_RIGHT,
@@ -15,8 +15,7 @@ enum MotionState{
 
 class WallSensorManager{
 	private:
-		WallSensor side1,side2;
-    SpecialWallSensor head;
+		WallSensor& side1,side2,head;
     LCD& debugger;
     enum MotionState lastCommand;
     enum MotionState currentCommand;
@@ -32,7 +31,7 @@ class WallSensorManager{
 		bool isTransition();
 
 	public:
-		WallSensorManager(int headpin, int side1pin, int side2pin,LCD& lcd,int delay);
+		WallSensorManager(WallSensor& head,WallSensor& side1,WallSensor& side2,LCD& lcd,int delay);
 		void initialize();
 		bool checkState();
     enum MotionState getState();

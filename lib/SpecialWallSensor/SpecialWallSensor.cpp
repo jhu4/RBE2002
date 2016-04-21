@@ -9,5 +9,5 @@ bool SpecialWallSensor::isWall(){
 }
 
 bool SpecialWallSensor::notWall(){
-	return reading<130;
+	
 }

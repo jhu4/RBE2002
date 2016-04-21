@@ -1,7 +1,7 @@
 #include "WallSensorManager.h"
-#include <Arduino.h>
 
-WallSensorManager::WallSensorManager(int p, int p1, int p2, LCD& lcd,int d):
+
+WallSensorManager::WallSensorManager(WallSensor& p,WallSensor& p1,WallSensor& p2, LCD& lcd,int d):
   side1(p1),side2(p2),head(p)
   ,debugger(lcd)
   ,delay(d),endtime(0)
@@ -79,7 +79,7 @@ bool WallSensorManager::shouldSencondTurn(){
 // }
 
 bool WallSensorManager::shouldGoStraight(){
-  return (side1.isSame() && side2.isSame())&&(!head.isWall());
+  return (side1.isWall() && side2.isWall())&&(!head.isWall());
 }
 
 
