@@ -5,6 +5,8 @@
 #include "Encoder.h"
 #include "PID_v1.h"
 
+#define TICKTOMM 0.0687223393
+
 class MotorController{
 	private:
 		Motor* motor;
@@ -13,6 +15,7 @@ class MotorController{
 		double input;
 		double output;
 		double setPoint;
+		long tickDistance;
 		PID pid;
 
 	public:
@@ -22,6 +25,7 @@ class MotorController{
 		double getSpeed();
 		void setSpeed(double speed);
 		void update();
+		long getTickDistance();
 		~MotorController();
 
 };
