@@ -21,8 +21,8 @@ MotorController rightControl(rightMotor, eRight, 0.2, 0.7, 0.0);
 Location loca;
 
 LCD lcd(40,41,42,43,44,45);
-WallSensorManager ms(0,1,2,lcd);
-WallFollower wf(ms,leftControl,rightControl,loca,lcd,50,0,0,100);
+WallSensorManager ms(0,1,2,lcd,3500);
+WallFollower wf(ms,leftControl,rightControl,loca,lcd,40,0,0,100);
 //works really well in (10,0,0)
 //overshoot a little (15,0,0),(20,0,0)
 void setup() {

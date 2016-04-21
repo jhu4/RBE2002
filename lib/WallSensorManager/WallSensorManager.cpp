@@ -1,9 +1,10 @@
 #include "WallSensorManager.h"
 #include <Arduino.h>
 
-WallSensorManager::WallSensorManager(int p, int p1, int p2, LCD& lcd):
+WallSensorManager::WallSensorManager(int p, int p1, int p2, LCD& lcd,int d):
   side1(p1),side2(p2),head(p)
   ,debugger(lcd)
+  ,delay(d),endtime(0)
   ,distance1(0),distance2(0){
 
 }
@@ -22,6 +23,7 @@ bool WallSensorManager::checkState(){
   mapDistance();
 
 	if(shouldLeftTurn() && currentCommand!=TURN_LEFT){
+    endtime=millis()+delay;
     lastCommand=currentCommand;
     currentCommand=TURN_LEFT;
     return true;
@@ -36,7 +38,7 @@ bool WallSensorManager::checkState(){
     currentCommand=SECOND_RIGHT_TURN;
     return true;
   }
-  if(currentCommand==TURN_LEFT && side1.isWall() && side2.isWall() ){
+  if(currentCommand==TURN_LEFT && millis()==endtime){
     lastCommand=TURN_LEFT;
     currentCommand=GO_STRAIGHT;
     return true;

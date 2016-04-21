@@ -40,13 +40,16 @@
 // WallSensor w2(2);
 // LCD lcd(40,41,42,43,44,45);
 // void setup(){
+//   sws.initialize();
 //   w1.initialize();
 //   w2.initialize();
 //   lcd.initialize();
 //   // sws.initialize();
 // }
 // void loop(){
+//   sws.sense();
 //   w1.sense();
 //   w2.sense();
 //   lcd.display((float)w1.getReading(),(float)w2.getReading());
+//   lcd.display((float)sws.getReading());
 // }

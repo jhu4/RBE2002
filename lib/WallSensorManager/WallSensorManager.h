@@ -21,6 +21,8 @@ class WallSensorManager{
     enum MotionState lastCommand;
     enum MotionState currentCommand;
     int data1, data2;
+		int delay;
+		unsigned long endtime;
     float distance1,distance2;
 		bool shouldSencondTurn();
 		bool shouldFirstTurn();
@@ -30,7 +32,7 @@ class WallSensorManager{
 		bool isTransition();
 
 	public:
-		WallSensorManager(int headpin, int side1pin, int side2pin,LCD& lcd);
+		WallSensorManager(int headpin, int side1pin, int side2pin,LCD& lcd,int delay);
 		void initialize();
 		bool checkState();
     enum MotionState getState();

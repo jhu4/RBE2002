@@ -4,7 +4,8 @@ WallFollower::WallFollower(WallSensorManager& m_in, MotorController& m1, MotorCo
 	m(m_in)
 	,mc1(m1),mc2(m2)
 	,loca(l)
-	,debugger(lcd),speed(s)
+	,debugger(lcd)
+	,speed(s)
 	,pid_in(0),pid_out(0),pid_setpoint(0)
   ,pid(&pid_in,&pid_out,&pid_setpoint,kp,ki,kd,DIRECT){
 }
@@ -29,29 +30,37 @@ void WallFollower::initialize(){
 
 
 void WallFollower::followTheWall(){
-	// if(m.checkState()){
-	// 	switch(m.getState()){
-	// 		case TURN_RIGHT:
-	// 			turnRight();
-	// 			debugger.display("RIGHT");
-	// 			break;
-	// 		case SECOND_RIGHT_TURN:
-	// 			turnRight();
-	// 			debugger.display("2ND RIGHT");
-	// 			break;
-	// 		case TURN_LEFT:
-  //      	turnLeft();
-	// 			debugger.display("LEFT");
-	// 			break;
-	// 		case GO_STRAIGHT:
-  //      	forward();
-	// 			debugger.display("STRAIGHT");
-	// 			break;
-	// 		default:
-	// 			break;
-	// 	}
-	// }
-	m.checkState();
+	if(m.checkState()){
+		switch(m.getState()){
+			case TURN_RIGHT:
+				turnRight();
+				debugger.display("RIGHT");
+				break;
+			case SECOND_RIGHT_TURN:
+				turnRight();
+				debugger.display("2ND RIGHT");
+				break;
+			case TURN_LEFT:
+       	turnLeft();
+				debugger.display("LEFT");
+				break;
+			case GO_STRAIGHT:
+       	forward();
+				debugger.display("STRAIGHT");
+				break;
+			default:
+				stop();
+				break;
+		}
+
+	}
+	if(pid.GetMode()==AUTOMATIC){
+		debugger.display(999);
+	}
+	if(pid.GetMode()==MANUAL){
+		debugger.display(-11);
+	}
+	// m.checkState();
 	if(pid.Compute()){;
     pid_in = m.getDistance1()-m.getDistance2();
     debugger.display(m.getDistance1()-m.getDistance2(),pid_out);
@@ -63,32 +72,32 @@ void WallFollower::followTheWall(){
 }
 
 void WallFollower::stop(){
-	pid.SetMode(MANUAL);
 	mc1.setSpeed(0);
 	mc2.setSpeed(0);
+	pid.SetMode(MANUAL);
 }
 
 void WallFollower::turnRight(){
-	pid.SetMode(MANUAL);
   mc1.setSpeed(speed*1.5);
   mc2.setSpeed(speed*0.5);
+	pid.SetMode(MANUAL);
 }
 
 void WallFollower::turnLeft(){
-	pid.SetMode(MANUAL);
   mc1.setSpeed(-speed);
   mc2.setSpeed(speed);
+	pid.SetMode(MANUAL);
 }
 
 void WallFollower::forward(){
-	pid.SetMode(AUTOMATIC);
 	mc1.setSpeed(speed);
 	mc2.setSpeed(speed);
+	pid.SetMode(AUTOMATIC);
 }
 
 
 void WallFollower::backward(){
-	pid.SetMode(AUTOMATIC);
 	mc1.setSpeed(-speed);
 	mc2.setSpeed(speed);
+	pid.SetMode(AUTOMATIC);
 }
