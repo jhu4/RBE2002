@@ -27,41 +27,34 @@ void WallFollower::initialize(){
 }
 
 
+
 void WallFollower::followTheWall(){
-	if(m.checkState()){
-		switch(m.getState()){
-			case TURN_RIGHT:
-				turnRight();
-				break;
-			case SECOND_RIGHT_TURN:
-				turnRight();
-				break;
-			case TURN_LEFT:
-       turnLeft();
-				break;
-			case GO_STRAIGHT:
-       forward();
-				break;
-			default:
-				break;
-		}
-	}
-	// m.checkState();
-  if(pid.Compute()){;
+	// if(m.checkState()){
+	// 	switch(m.getState()){
+	// 		case TURN_RIGHT:
+	// 			turnRight();
+	// 			debugger.display("RIGHT");
+	// 			break;
+	// 		case SECOND_RIGHT_TURN:
+	// 			turnRight();
+	// 			debugger.display("2ND RIGHT");
+	// 			break;
+	// 		case TURN_LEFT:
+  //      	turnLeft();
+	// 			debugger.display("LEFT");
+	// 			break;
+	// 		case GO_STRAIGHT:
+  //      	forward();
+	// 			debugger.display("STRAIGHT");
+	// 			break;
+	// 		default:
+	// 			break;
+	// 	}
+	// }
+	m.checkState();
+	if(pid.Compute()){;
     pid_in = m.getDistance1()-m.getDistance2();
     debugger.display(m.getDistance1()-m.getDistance2(),pid_out);
-		if(m.getState()==TURN_RIGHT){
-			debugger.display("RIGHT");
-		}
-		if(m.getState()==TURN_LEFT){
-			debugger.display("LEFT");
-		}
-		if(m.getState()==GO_STRAIGHT){
-			debugger.display("STRAIGHT");
-		}
-		if(m.getState()==SECOND_RIGHT_TURN){
-			debugger.display("2ND R");
-		}
     mc1.setSpeed(speed-pid_out/2);
     mc2.setSpeed(speed+pid_out/2);
   }
@@ -77,20 +70,20 @@ void WallFollower::stop(){
 
 void WallFollower::turnRight(){
 	pid.SetMode(MANUAL);
-  mc1.setSpeed(speed*2);
-  mc2.setSpeed(-speed*2);
+  mc1.setSpeed(speed*1.5);
+  mc2.setSpeed(speed*0.5);
 }
 
 void WallFollower::turnLeft(){
 	pid.SetMode(MANUAL);
-  mc1.setSpeed(-speed*2);
-  mc2.setSpeed(speed*2);
+  mc1.setSpeed(-speed);
+  mc2.setSpeed(speed);
 }
 
 void WallFollower::forward(){
 	pid.SetMode(AUTOMATIC);
 	mc1.setSpeed(speed);
-  mc2.setSpeed(speed);
+	mc2.setSpeed(speed);
 }
 
 

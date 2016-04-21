@@ -19,9 +19,9 @@ bool WallSensorManager::checkState(){
   data1=side1.sense();
   data2=side2.sense();
 
-  this->mapDistance();
+  mapDistance();
 
-	if(shouldLeftTurn() && currentCommand!=TURN_LEFT && lastCommand==GO_STRAIGHT){
+	if(shouldLeftTurn() && currentCommand!=TURN_LEFT){
     lastCommand=currentCommand;
     currentCommand=TURN_LEFT;
     return true;
@@ -36,7 +36,12 @@ bool WallSensorManager::checkState(){
     currentCommand=SECOND_RIGHT_TURN;
     return true;
   }
-	if(shouldGoStraight() && currentCommand!=GO_STRAIGHT && !isTransition()){
+  if(currentCommand==TURN_LEFT && side1.isWall() && side2.isWall() ){
+    lastCommand=TURN_LEFT;
+    currentCommand=GO_STRAIGHT;
+    return true;
+  }
+	if(shouldGoStraight() && currentCommand!=GO_STRAIGHT){
     lastCommand=currentCommand;
     currentCommand=GO_STRAIGHT;
     return true;
@@ -49,12 +54,6 @@ enum MotionState WallSensorManager::getState(){
 }
 
 /* Private */
-bool WallSensorManager::isTransition(){
-  if(side1.isSame()&&side2.isSame()){
-    return false;
-  }
-  return true;
-}
 
 bool WallSensorManager::shouldRightTurn(){
 	return (shouldFirstTurn()||shouldSencondTurn());
@@ -72,10 +71,15 @@ bool WallSensorManager::shouldSencondTurn(){
 	return side1.isGap() && side2.isGap();
 }
 
+// bool WallSensorManager::shouldGoStraight(){
+//   return ((side1.isWall() && side2.isWall())||(side1.isWall()
+//             && side2.isGap()))&&(side1.isSame() && side2.isSame())&&(!head.isWall());
+// }
+
 bool WallSensorManager::shouldGoStraight(){
-  return ((side1.isWall() && side2.isWall())||(side1.isWall()
-            && side2.isGap()))&&(side1.isSame() && side2.isSame())&&(!head.isWall());
+  return (side1.isSame() && side2.isSame())&&(!head.isWall());
 }
+
 
 //need math calculation
 void WallSensorManager::mapDistance(){
@@ -100,7 +104,6 @@ void WallSensorManager::mapDistance(){
   }
   if(one<40){
     distance1=30;
-    debugger.display("WM:mD:one");
   }
   /////
   if(two<=542 && two>378){
@@ -121,7 +124,6 @@ void WallSensorManager::mapDistance(){
   }
   if(two<100){
     distance2=30;
-    debugger.display("WM:mD:two");
   }
 }
 

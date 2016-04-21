@@ -9,5 +9,6 @@ class SpecialWallSensor: public WallSensor{
 	public:
 		SpecialWallSensor(int pin);
 		bool isWall();
+		bool notWall();
 };
 #endif

@@ -21,7 +21,7 @@ int WallSensor::getReading(){
 }
 
 bool WallSensor::isWall(){
-	return reading>150;
+	return reading>140;
 }
 
 bool WallSensor::isFindGap(){

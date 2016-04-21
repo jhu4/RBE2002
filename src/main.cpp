@@ -30,3 +30,23 @@
 // 	leftControl->update();
 // 	rightControl->update();
 // }
+//
+// #include "LCD.h"
+// #include "SpecialWallSensor.h"
+// #include "WallSensor.h"
+// #include <Arduino.h>
+// SpecialWallSensor sws(0);
+// WallSensor w1(1);
+// WallSensor w2(2);
+// LCD lcd(40,41,42,43,44,45);
+// void setup(){
+//   w1.initialize();
+//   w2.initialize();
+//   lcd.initialize();
+//   // sws.initialize();
+// }
+// void loop(){
+//   w1.sense();
+//   w2.sense();
+//   lcd.display((float)w1.getReading(),(float)w2.getReading());
+// }
