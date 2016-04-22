@@ -15,10 +15,6 @@ pid(&input,&output,&setPoint,kp,ki,kd,DIRECT){
 	pid.SetMode(AUTOMATIC);
 }
 
-void MotorController::initialize(){
-
-}
-
 void MotorController::setSpeed(double speed){
 	setPoint = speed;
 }
@@ -44,6 +40,7 @@ double MotorController::getSpeed(){
 	prevTime = currTime;
 	return ticks*TICKTOMM/secs;
 }
+
 
 long MotorController::getTickDistance(){
 	return tickDistance;

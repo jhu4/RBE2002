@@ -3,6 +3,7 @@
 #include "MotorController.h"
 #include "LCD.h"
 #include "DistanceSensor.h"
+#include "ZWallFollower.h"
 
 #include <Arduino.h>
 
@@ -22,33 +23,32 @@ LCD* lcd = new LCD(40,41,42,43,44,45);
 DistanceSensor* distA = new DistanceSensor(A2);
 DistanceSensor* distB = new DistanceSensor(A1);
 
+
+ZWallFollower* follower = new ZWallFollower(distA, distB,leftControl, rightControl, 150, 100 , 2 , 0, 1);
+
+
+enum State {WALL_FOLLOW, TURN, STOP, FLAME};
+State robot_state = WALL_FOLLOW;
+
 void setup() {
 	pinMode(enablePin, OUTPUT);
 	digitalWrite(enablePin, HIGH);
 
-	leftControl->setSpeed(0);
-	rightControl->setSpeed(0);
 }
 
+
 void loop() {
-	leftControl->update();
-	rightControl->update();
 
-	double d1 = distA->getDistance();
-	double d2 = distB->getDistance();
-	double space = 165;
-	double d3 = abs(d1-d2);
-	if (d3 == 0){
-		d3 = 0.000001;
-	}
-	double z = space/d3;
-	double dist = (z/sqrt(1+(z*z)))*d2;
-	if (dist < 10 || dist != dist){
-		dist = 10;
-	} else if (dist > 250){
-		dist = 250;
+	switch (robot_state) {
+		case WALL_FOLLOW:
+			follower->update();
+			break;
+		case TURN:
+			break;
+		case STOP:
+			break;
+		case FLAME:
+			break;
 	}
 
-	lcd->display(dist);
-	//lcd->display(leftControl->getTickDistance()*TICKTOMM);
 }

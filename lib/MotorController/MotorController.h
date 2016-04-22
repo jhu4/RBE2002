@@ -21,7 +21,6 @@ class MotorController{
 	public:
 
 		MotorController(Motor* motor, Encoder* encoder, double kp, double ki, double kd);
-		void initialize();
 		double getSpeed();
 		void setSpeed(double speed);
 		void update();
