@@ -22,9 +22,10 @@ LCD* lcd = new LCD(40,41,42,43,44,45);
 
 DistanceSensor* distA = new DistanceSensor(A2);
 DistanceSensor* distB = new DistanceSensor(A1);
+DistanceSensor* distC = new DistanceSensor(A0);
 
 
-ZWallFollower* follower = new ZWallFollower(distA, distB,leftControl, rightControl, 150, 100 , 2 , 0, 1);
+ZWallFollower* follower = new ZWallFollower(distA, distB, leftControl, rightControl, 150, 100 , 2 , 0, 1);
 
 
 enum State {WALL_FOLLOW, TURN, STOP, FLAME};

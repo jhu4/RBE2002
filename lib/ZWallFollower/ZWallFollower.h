@@ -9,6 +9,7 @@ class ZWallFollower{
 private:
   DistanceSensor* distSenseA;
   DistanceSensor* distSenseB;
+  DistanceSensor* distSenseC;
   MotorController* motorControllerA;
   MotorController* motorControllerB;
   double distance;
