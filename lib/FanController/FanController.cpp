@@ -104,6 +104,10 @@ int FanController::getYawAngle() {
   return yawAngle;
 }
 
+Fan::Fan(int p):pin(p){
+
+}
+
 void Fan::initialize(){
   pinMode(pin,OUTPUT);
 }
