@@ -15,7 +15,7 @@ Encoder* eRight = new Encoder(18,19);
 Motor* leftMotor = new Motor(10, 7, 8, 1);
 Motor* rightMotor = new Motor(6, 4, 5, 0);
 
-MotorController* leftControl = new MotorController(leftMotor, eLeft, 0.2, 0.6, 0.0);
+MotorController* leftControl = new MotorController(leftMotor, eLeft, 0.2, 0.7, 0.0);
 MotorController* rightControl = new MotorController(rightMotor, eRight, 0.2, 0.7, 0.0);
 
 LCD* lcd = new LCD(40,41,42,43,44,45);
@@ -25,7 +25,7 @@ DistanceSensor* distB = new DistanceSensor(A1);
 DistanceSensor* distC = new DistanceSensor(A0);
 
 
-ZWallFollower* follower = new ZWallFollower(distA, distB, leftControl, rightControl, 150, 100 , 2 , 0, 1);
+ZWallFollower* follower = new ZWallFollower(distA, distB, distC, leftControl, rightControl, 150, 100 , 2 , 0, 1);
 
 
 enum State {WALL_FOLLOW, TURN, STOP, FLAME};
@@ -37,12 +37,37 @@ void setup() {
 
 }
 
+unsigned long lastTime = millis();
+bool toggle = 0;
+
+double leftDist = 0;
+double rightDist = 0;
+double leftDistOld = 0;
+double rightDistOld = 0;
+double leftDistDiff = 0;
+double rightDistDiff = 0;
+
+double wheelSpace = 200;
+double theta = 0;
 
 void loop() {
 
 	switch (robot_state) {
 		case WALL_FOLLOW:
 			follower->update();
+			leftDist = leftControl->getTickDistance();
+			rightDist = rightControl->getTickDistance();
+
+			leftDistDiff = leftDist-leftDistOld;
+			rightDistDiff = rightDist-rightDistOld;
+
+			leftDistOld = leftDist;
+			rightDistOld = rightDist;
+
+			theta = theta + (-leftDistDiff+rightDistDiff)/wheelSpace;
+
+			lcd->display(theta);
+
 			break;
 		case TURN:
 			break;

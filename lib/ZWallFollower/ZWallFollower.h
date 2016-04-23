@@ -18,9 +18,11 @@ private:
   double input;
   PID pid;
   bool enabled;
+  unsigned long lastTime;
+  bool inTurn;
 
 public:
-  ZWallFollower(DistanceSensor* distSenseA, DistanceSensor* distSenseB,
+  ZWallFollower(DistanceSensor* distSenseA, DistanceSensor* distSenseB, DistanceSensor* distSenseC,
     MotorController* motorControllerA, MotorController* motorControllerB,
     double distance, double biasSpeed, double kp, double ki, double kd);
   void update();

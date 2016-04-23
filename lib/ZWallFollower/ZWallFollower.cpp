@@ -1,10 +1,14 @@
 #include "ZWallFollower.h"
+#include "LCD.h"
 
-ZWallFollower::ZWallFollower(DistanceSensor* distSenseA, DistanceSensor* distSenseB,
+//LCD* lcd = new LCD(40,41,42,43,44,45);
+
+ZWallFollower::ZWallFollower(DistanceSensor* distSenseA, DistanceSensor* distSenseB, DistanceSensor* distSenseC,
   MotorController* motorControllerA, MotorController* motorControllerB,
   double distance, double biasSpeed, double kp, double ki, double kd):
   distSenseA(distSenseA),
   distSenseB(distSenseB),
+  distSenseC(distSenseC),
   motorControllerA(motorControllerA),
   motorControllerB(motorControllerB),
   distance(distance),
@@ -12,7 +16,9 @@ ZWallFollower::ZWallFollower(DistanceSensor* distSenseA, DistanceSensor* distSen
   output(0),
   input(0),
   pid(&input,&output,&(this->distance),kp,ki,kd,DIRECT),
-  enabled(1){
+  enabled(1),
+  lastTime(millis()),
+  inTurn(0){
     pid.SetOutputLimits(-100,
       100);
   	pid.SetMode(AUTOMATIC);
@@ -38,17 +44,30 @@ double ZWallFollower::getDistance(){
 
 void ZWallFollower::update(){
   if (enabled){
-    if(pid.Compute()){
+    //lcd->display(distSenseC->getAverage());
+
+    distSenseC->getDistance();
+    if((distSenseC->getAverage() < 11) && !inTurn){
+      motorControllerA->setSpeed(-160);
+    	motorControllerB->setSpeed(110);
+      inTurn = 1;
+      lastTime = millis();
+    }
+
+    if (inTurn && (millis()-lastTime) > 1450){
+      inTurn = 0;
+    }
+
+    if(!inTurn && pid.Compute()){
 
       input = getDistance();
 
       motorControllerA->setSpeed(biasSpeed - output);
       motorControllerB->setSpeed(biasSpeed + output);
     }
-
-    motorControllerA->update();
-    motorControllerB->update();
   }
+  motorControllerA->update();
+  motorControllerB->update();
 }
 
 void ZWallFollower::disable(){
