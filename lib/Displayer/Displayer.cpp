@@ -1,8 +1,7 @@
-#include <Arduino.h>
 #include "Displayer.h"
 
 
-Displayer::Displayer(LCD& lcd_in, LED& led_in):
+Displayer::Displayer(LCD& lcd_in,LED* led_in[LEDNUM]):
   lcd(lcd_in),
   led(led_in),
   index(0){
@@ -10,11 +9,17 @@ Displayer::Displayer(LCD& lcd_in, LED& led_in):
 
 void Displayer::initialize() {
   lcd.initialize();
-  led.initialize();
-
+  for(int i=0;i<LEDNUM;i++){
+    led[i]->initialize();
+  }
 }
 
-void Displayer::updateLocation(Location loca){
+void Displayer::updateLocation(Location& loca){
   lcd.display(loca.getX(),loca.getY());
-  
+}
+
+void Displayer::LEDon(){
+  for(int i=0;i<LEDNUM;i++){
+    led[i]->on();
+  }
 }

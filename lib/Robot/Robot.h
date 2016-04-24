@@ -15,7 +15,7 @@ class Robot{
 		void returnToOrigin();
 
 	public:
-		Robot(Location& l,FanController f, Displayer d, WallFollower w, LightSensor ls);
+		Robot(Location& l,ZWallFollower& wf, TurretController& tc, Displayer& dp);
 		~Robot();
 		void initializing();
 		void robotGO();
