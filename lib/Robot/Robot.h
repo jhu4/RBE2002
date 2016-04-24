@@ -1,23 +1,17 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
-#include <FanController.h>
-#include <Displayer.h>
-#include <WallFollower.h>
-#include <Location.h>
+#include "TurretController.h"
+#include "Displayer.h"
+#include "ZWallFollower.h"
+#include "Location.h"
 
 class Robot{
-	private:	
-		FanController fancontroller;
-		WallFollower wallfollower;
+	private:
+		TurretController tc;
+		ZWallFollower wf;
 		Displayer displayer;
-		Location location;
-		LightSensor lightsensor;
-		int yawAngle,pitchAngle;
-		float deltaX,deltaY,Z;
-		bool isfindCandle;
-		void locateInYaw();
-		void locateInPitch();
+		Location loca;
 		void returnToOrigin();
 
 	public:
@@ -25,6 +19,5 @@ class Robot{
 		~Robot();
 		void initializing();
 		void robotGO();
-		void locateCandle();
 };
 #endif
