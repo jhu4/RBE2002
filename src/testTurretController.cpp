@@ -4,7 +4,7 @@
 #include "Fan.h"
 #include <Servo.h>
 
-LightSensor ls(12,11,150);
+LightSensor ls(3,11,100);
 Fan fan(25);
 TurretController tc(9,24,fan,ls);
 // Servo hi;
@@ -22,6 +22,6 @@ void setup(){
 
 void loop(){
   if(tc.scan()){
-    delay(5000);
+    delay(2000);
   }
 }

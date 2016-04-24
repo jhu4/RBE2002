@@ -8,7 +8,7 @@
 
 #define HALFANGLE 1
 #define INDEX (180/HALFANGLE)
-#define TICKTIME 200
+#define TICKTIME 30
 
 enum turretDirection{
   UP,
