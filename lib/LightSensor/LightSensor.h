@@ -1,10 +1,10 @@
 #ifndef LIGHTSENSOR_H
 #define LIGHTSENSOR_H
 
-#define INDEXMAX 20
 
 class LightSensor{
 	private:
+		static const int capacity=20;
 		const int Apin;
 		const int Dpin;
 		const unsigned int offset;
@@ -12,7 +12,8 @@ class LightSensor{
 		bool enable;
 		unsigned int averageReading;
 		int index;
-		int readinglst[INDEXMAX];
+		int size;
+		int readinglst[capacity];
 
 	public:
 		LightSensor(int Apin, int Dpin, unsigned int ofs);

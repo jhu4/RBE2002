@@ -5,23 +5,30 @@
 #include <Servo.h>
 
 LightSensor ls(3,11,100);
-Fan fan(25);
-TurretController tc(9,24,fan,ls);
+// Fan fan(25);
+// TurretController tc(9,24,fan,ls);
 // Servo hi;
 void setup(){
-  pinMode(5,OUTPUT);
-  digitalWrite(5,HIGH);
   Serial.begin(9600);
-  tc.initialize();
-  delay(1000);
-  pinMode(10,INPUT);
-  digitalWrite(10,HIGH);
-  pinMode(11,INPUT);
-  digitalWrite(11,LOW);
+  Serial.println("Setup");
+  // pinMode(5,OUTPUT);
+  // digitalWrite(5,HIGH);
+  //
+  // tc.initialize();
+  // delay(1000);
+  // pinMode(10,INPUT);
+  // digitalWrite(10,HIGH);
+  // pinMode(11,INPUT);
+  // digitalWrite(11,LOW);
 }
 
 void loop(){
-  if(tc.scan()){
-    delay(2000);
-  }
+
+  // if(tc.scan()){
+
+  //   delay(2 000);
+  // }
+  // ls.sense();
+  // Serial.println(ls.getDistance());
+  Serial.println("Heelo");
 }

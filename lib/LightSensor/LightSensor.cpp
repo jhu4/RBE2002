@@ -5,8 +5,7 @@ LightSensor::LightSensor(int Ap, int Dp, unsigned int ofs):
 Apin(Ap), Dpin(Dp)
 ,offset(ofs)
 ,isCandle(false),enable(true)
-,index(0){
-	readinglst[INDEXMAX]={0};
+,index(0),size(1){
 }
 
 void LightSensor::initialize(){
@@ -18,23 +17,19 @@ void LightSensor::initialize(){
  * @return if something unusual happened
  */
 bool LightSensor::sense(){
-	int counter = 0;
 	indexIncrement();
 	readinglst[index] = analogRead(Apin);
 
-	// isCandle = (bool) !digitalRead(Dpin);
-	for(int i=0;i<INDEXMAX;i++){
-		(readinglst[i]==0? counter=counter:counter++);
+
+	for(int i=0;i<capacity;i++){
+		(size>=20? size=20: size++);
 		averageReading+=readinglst[i];
 	}
-	averageReading/=counter;
+	averageReading/=size;
 
 	if(averageReading!= 0 && (averageReading-readinglst[index])>offset){
 		return true;
 	}
-	// if(isCandle){
-	// 	return true;
-	// }
 	return false;
 }
 
@@ -43,7 +38,7 @@ int LightSensor::getReading(){
 }
 
 bool LightSensor::isDetectLight(){
-	return !isCandle;
+	return isCandle;
 }
 
 bool LightSensor::isGetCloser(){
@@ -62,11 +57,11 @@ float LightSensor::getDistance(){
 
 void LightSensor::indexIncrement(){
 	index++;
-	if(index==INDEXMAX){
+	if(index==capacity){
 		index=0;
 	}
 }
 
 int LightSensor::lastIndex(){
-	return (index-1<0? INDEXMAX-1: index-1);
+	return (index-1<0? capacity-1: index-1);
 }
