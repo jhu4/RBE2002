@@ -22,14 +22,17 @@ bool LightSensor::sense(){
 	indexIncrement();
 	readinglst[index] = analogRead(Apin);
 
-	isCandle = (bool) digitalRead(Dpin);
+	isCandle = (bool) !digitalRead(Dpin);
 	for(int i=0;i<INDEXMAX;i++){
 		(readinglst[i]==0? counter=counter:counter++);
 		averageReading+=readinglst[i];
 	}
 	averageReading/=counter;
 
-	if(averageReading!= 0 && (averageReading-readinglst[index])>offset){
+	// if(averageReading!= 0 && (averageReading-readinglst[index])>offset){
+	// 	return true;
+	// }
+	if(isCandle){
 		return true;
 	}
 	return false;

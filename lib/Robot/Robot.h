@@ -8,10 +8,10 @@
 
 class Robot{
 	private:
-		TurretController tc;
-		ZWallFollower wf;
-		Displayer displayer;
-		Location loca;
+		TurretController& tc;
+		ZWallFollower& wf;
+		Displayer& displayer;
+		Location& loca;
 		void returnToOrigin();
 
 	public:

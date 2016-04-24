@@ -71,8 +71,7 @@ bool TurretController::scan(){
 bool TurretController::up() {
     posPitch+=HALFANGLE;
     pitchServo.write(posPitch);
-    if (posPitch == 180) {
-      posPitch=0;
+    if (posPitch >= 180) {
       pitchDirection=DOWN;
       return false;
     }
@@ -82,8 +81,7 @@ bool TurretController::up() {
 bool TurretController::down() {
     posPitch-=HALFANGLE;
     pitchServo.write(posPitch);
-    if (posPitch == 0) {
-      posPitch=180;
+    if (posPitch <= 0) {
       pitchDirection=UP;
       return false;
     }
@@ -91,22 +89,22 @@ bool TurretController::down() {
 }
 
 bool TurretController::left() {
-    posYaw-=HALFANGLE;
-    yawServo.write(posYaw);
-    if (posYaw == 0) {
+    if (posYaw <= 0) {
       yawDirection=RIGHT;
       return false;
     }
+    posYaw-=HALFANGLE;
+    yawServo.write(posYaw);
     return true;
 }
 
 bool TurretController::right() {
-    posYaw+=HALFANGLE;
-    yawServo.write(posYaw);
-    if (posYaw == 180) {
+    if (posYaw >= 180) {
       yawDirection=LEFT;
       return false;
     }
+    posYaw+=HALFANGLE;
+    yawServo.write(posYaw);
     return true;
 }
 
