@@ -5,7 +5,9 @@
 #include "Encoder.h"
 #include "PID_v1.h"
 
-#define TICKTOMM 0.0687223393
+//#define TICKTOMM 0.0687223393
+
+#define TICKTOMM 0.0697223393
 
 class MotorController{
 	private:

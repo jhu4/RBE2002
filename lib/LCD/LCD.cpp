@@ -4,12 +4,12 @@
 LCD::LCD(int p1, int p2, int p3, int p4, int p5, int p6):
 lcd(p1, p2, p3, p4, p5, p6),
 lastTime(0){
-
+  lcd.begin(16,2);
 }
 
 bool LCD::delayWrite(){
   unsigned long currTime = millis();
-  if ((currTime-lastTime)<10){
+  if ((currTime-lastTime) < 100){
     return true;
   } else {
     lastTime = currTime;
@@ -25,7 +25,8 @@ void LCD::display(float x, float y){
     lcd.setCursor(0,0);
     lcd.print("X:");
     lcd.print(x);
-    lcd.print(" Y:");
+    lcd.setCursor(0,1);
+    lcd.print("Y:");
     lcd.print(y);
   }
 }
@@ -53,6 +54,12 @@ void LCD::display(String message){
 }
 
 void LCD::display(long ticks){
+  lcd.setCursor(0,0);
+  lcd.print("TICKS: ");
+  lcd.print(ticks);
+}
+
+void LCD::display(unsigned long ticks){
   lcd.setCursor(0,0);
   lcd.print("TICKS: ");
   lcd.print(ticks);

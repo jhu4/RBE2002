@@ -16,6 +16,7 @@ class LCD{
     void display(String message);
     void display(float z);
     void display(long ticks);
+    void display(unsigned long ticks);
     void display(double x);
     bool delayWrite();
 

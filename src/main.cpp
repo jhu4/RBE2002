@@ -8,6 +8,7 @@
 #include <Arduino.h>
 
 #define enablePin 11
+#define MMTOIN 0.0393701
 
 Encoder* eLeft = new Encoder(2,3);
 Encoder* eRight = new Encoder(18,19);
@@ -32,9 +33,11 @@ enum State {WALL_FOLLOW, TURN, STOP, FLAME};
 State robot_state = WALL_FOLLOW;
 
 void setup() {
+
 	pinMode(enablePin, OUTPUT);
 	digitalWrite(enablePin, HIGH);
-
+	//leftControl->setSpeed(100);
+	//rightControl->setSpeed(100);
 }
 
 unsigned long lastTime = millis();
@@ -47,26 +50,44 @@ double rightDistOld = 0;
 double leftDistDiff = 0;
 double rightDistDiff = 0;
 
-double wheelSpace = 200;
+double wheelSpace = 177;
 double theta = 0;
+double heading = 0;
+double radius = 0;
+
+double x = 0;
+double y = 0;
 
 void loop() {
 
 	switch (robot_state) {
 		case WALL_FOLLOW:
 			follower->update();
+			// leftControl->update();
+			// rightControl->update();
+
 			leftDist = leftControl->getTickDistance();
 			rightDist = rightControl->getTickDistance();
 
-			leftDistDiff = leftDist-leftDistOld;
-			rightDistDiff = rightDist-rightDistOld;
+			leftDistDiff = (leftDist-leftDistOld)*TICKTOMM;
+			rightDistDiff = (rightDist-rightDistOld)*TICKTOMM;
 
 			leftDistOld = leftDist;
 			rightDistOld = rightDist;
 
-			theta = theta + (-leftDistDiff+rightDistDiff)/wheelSpace;
+			theta = (-leftDistDiff+rightDistDiff)/(wheelSpace);
+			heading = theta + heading;
 
-			lcd->display(theta);
+			if (theta != 0){
+				radius = (rightDistDiff/theta)-(wheelSpace/2);
+				x = x + (radius*(sin(theta+heading)-sin(heading)));
+				y = y + (radius*(cos(heading)-cos(theta+heading)));
+			} else {
+				x = x + leftDistDiff*cos(heading);
+				y = y + leftDistDiff*sin(heading);
+			}
+
+			lcd->display(x*MMTOIN,y*MMTOIN);
 
 			break;
 		case TURN:
