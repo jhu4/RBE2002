@@ -19,7 +19,8 @@ private:
   PID pid;
   bool enabled;
   unsigned long lastTime;
-  bool inTurn;
+  bool ADone;
+  bool BDone;
 
 public:
   ZWallFollower(DistanceSensor* distSenseA, DistanceSensor* distSenseB, DistanceSensor* distSenseC,

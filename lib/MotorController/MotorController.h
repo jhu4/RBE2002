@@ -19,6 +19,8 @@ class MotorController{
 		double setPoint;
 		long tickDistance;
 		PID pid;
+		bool inMove;
+		long startTick;
 
 	public:
 
@@ -27,6 +29,7 @@ class MotorController{
 		void setSpeed(double speed);
 		void update();
 		long getTickDistance();
+		bool moveTicks(int ticks, int speed);
 		~MotorController();
 
 };

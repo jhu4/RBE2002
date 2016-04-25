@@ -18,7 +18,8 @@ ZWallFollower::ZWallFollower(DistanceSensor* distSenseA, DistanceSensor* distSen
   pid(&input,&output,&(this->distance),kp,ki,kd,DIRECT),
   enabled(1),
   lastTime(millis()),
-  inTurn(0){
+  ADone(1),
+  BDone(1){
     pid.SetOutputLimits(-100,
       100);
   	pid.SetMode(AUTOMATIC);
@@ -47,18 +48,25 @@ void ZWallFollower::update(){
     //lcd->display(distSenseC->getAverage());
 
     distSenseC->getDistance();
-    if((distSenseC->getAverage() < 11) && !inTurn){
-      motorControllerA->setSpeed(-160);
-    	motorControllerB->setSpeed(110);
-      inTurn = 1;
-      lastTime = millis();
+    if((distSenseC->getAverage() < 11) && (ADone && BDone)){
+
+      //motorControllerA->setSpeed(-160);
+    	//motorControllerB->setSpeed(110);
+      ADone = false;
+      BDone = false;
+      //lastTime = millis();
     }
 
-    if (inTurn && (millis()-lastTime) > 1450){
-      inTurn = 0;
+    if (!ADone || !BDone){ //&&(millis()-lastTime) > 1450){
+      if (!ADone){
+				ADone = motorControllerA->moveTicks(-1600, -200);
+			}
+			if (!BDone){
+				BDone = motorControllerB->moveTicks(1600, 100);
+			}
     }
 
-    if(!inTurn && pid.Compute()){
+    if((ADone && BDone) && pid.Compute()){
 
       input = getDistance();
 
