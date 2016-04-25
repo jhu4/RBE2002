@@ -6,9 +6,9 @@
 #include "Fan.h"
 
 
-#define HALFANGLE 1
+#define HALFANGLE 4
 #define INDEX (180/HALFANGLE)
-#define TICKTIME 30
+#define TICKTIME 100
 
 enum turretDirection{
   UP,
@@ -45,6 +45,7 @@ class TurretController {
     void findCandle();
     int getYawPos();
     bool scan();
+    bool updownScan();
 };
 
 #endif

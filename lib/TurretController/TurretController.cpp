@@ -3,7 +3,7 @@ TurretController::TurretController(int yaw, int pitch, Fan& _fan,LightSensor& _l
   _yaw(yaw)
   , _pitch(pitch)
   ,yawAngle(0),pitchAngle(0)
-  ,posPitch(0),posYaw(0)
+  ,posPitch(120),posYaw(0)
   ,time(0)
   ,yawDirection(RIGHT),pitchDirection(UP)
   ,fan(_fan),ls(_ls){
@@ -68,23 +68,43 @@ bool TurretController::scan(){
   return false;
 }
 
+bool TurretController::updownScan(){
+  if(millis()>=time){
+    if(pitchDirection==UP){
+        up();
+        if(ls.sense()){
+          return true;
+        }
+    }
+    if(pitchDirection==DOWN){
+        down();
+        if(ls.sense()){
+          return true;
+        }
+    }
+    time = millis()+TICKTIME;
+  }
+  return false;
+}
+
+
 bool TurretController::up() {
-    posPitch+=HALFANGLE;
-    pitchServo.write(posPitch);
     if (posPitch >= 180) {
       pitchDirection=DOWN;
       return false;
     }
+    posPitch+=HALFANGLE;
+    pitchServo.write(posPitch);
     return true;
 }
 
 bool TurretController::down() {
-    posPitch-=HALFANGLE;
-    pitchServo.write(posPitch);
     if (posPitch <= 0) {
       pitchDirection=UP;
       return false;
     }
+    posPitch-=HALFANGLE;
+    pitchServo.write(posPitch);
     return true;
 }
 
@@ -109,9 +129,9 @@ bool TurretController::right() {
 }
 
 int TurretController::getPitchAngle() {
-  return pitchAngle;
+  return posPitch;
 }
 
 int TurretController::getYawAngle() {
-  return yawAngle;
+  return posYaw;
 }
