@@ -36,8 +36,6 @@ void setup() {
 
 	pinMode(enablePin, OUTPUT);
 	digitalWrite(enablePin, HIGH);
-	//leftControl->setSpeed(100);
-	//rightControl->setSpeed(100);
 }
 
 unsigned long lastTime = millis();
@@ -58,28 +56,13 @@ double radius = 0;
 double x = 0;
 double y = 0;
 
-
-// bool rightDone = false;
-// bool leftDone = false;
-
 void loop() {
 
 	switch (robot_state) {
 		case WALL_FOLLOW:
 			follower->update();
 
-
-			// if (!rightDone){
-			// 	rightDone = rightControl->moveTicks(3200, 100);
-			// }
-			// if (!leftDone){
-			// 	leftDone = leftControl->moveTicks(3200, 100);
-			// }
-			//
-			// leftControl->update();
-			// rightControl->update();
-
-///////////////////
+			
 			leftDist = leftControl->getTickDistance();
 			rightDist = rightControl->getTickDistance();
 

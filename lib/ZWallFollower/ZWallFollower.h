@@ -21,6 +21,7 @@ private:
   unsigned long lastTime;
   bool ADone;
   bool BDone;
+  bool leftTurn;
 
 public:
   ZWallFollower(DistanceSensor* distSenseA, DistanceSensor* distSenseB, DistanceSensor* distSenseC,
