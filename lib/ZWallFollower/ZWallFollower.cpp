@@ -57,14 +57,14 @@ void ZWallFollower::update(){
       //lastTime = millis();
     }
 
-    if (!ADone || !BDone){ //&&(millis()-lastTime) > 1450){
-      if (!ADone){
-				ADone = motorControllerA->moveTicks(-1600, -200);
-			}
-			if (!BDone){
-				BDone = motorControllerB->moveTicks(1600, 100);
-			}
-    }
+    //if (!(ADone && BDone)){ //&&(millis()-lastTime) > 1450){
+    if (!ADone){
+			ADone = motorControllerA->moveTicks(-1600, -200);
+		}
+		if (!BDone){
+			BDone = motorControllerB->moveTicks(1600, 100);
+		}
+    //}
 
     if((ADone && BDone) && pid.Compute()){
 
