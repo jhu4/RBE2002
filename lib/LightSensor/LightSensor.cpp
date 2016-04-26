@@ -1,8 +1,8 @@
 #include "LightSensor.h"
 #include <Arduino.h>
 
-LightSensor::LightSensor(int Ap, int Dp, unsigned int ofs):
-Apin(Ap), Dpin(Dp)
+LightSensor::LightSensor(int Ap,unsigned int ofs):
+Apin(Ap)
 ,offset(ofs)
 ,isCandle(false),enable(true)
 ,index(0),size(1){
@@ -10,7 +10,6 @@ Apin(Ap), Dpin(Dp)
 
 void LightSensor::initialize(){
 	pinMode(Apin, INPUT);
-	pinMode(Dpin, INPUT);
 }
 
 /** Sense the flame

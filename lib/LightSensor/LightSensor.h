@@ -6,7 +6,6 @@ class LightSensor{
 	private:
 		static const int capacity=20;
 		const int Apin;
-		const int Dpin;
 		const unsigned int offset;
 		bool isCandle;
 		bool enable;
@@ -16,7 +15,7 @@ class LightSensor{
 		int readinglst[capacity];
 
 	public:
-		LightSensor(int Apin, int Dpin, unsigned int ofs);
+		LightSensor(int Apin, unsigned int ofs);
     bool sense();
 		void initialize();
 		bool isDetectLight();

@@ -1,6 +1,6 @@
 #include "TurretController.h"
 TurretController::TurretController(int yaw, int pitch, Fan& _fan,LightSensor& _ls):
-  index(0)
+  isYawScanFinished(false),index(0)
   ,_yaw(yaw), _pitch(pitch)
   ,yawMinReading(2000),pitchMinReading(2000)
   ,yawAngle(0),pitchAngle(0)
@@ -26,26 +26,52 @@ float TurretController::getCandleDistance() {
 
 bool TurretController::findCandleScan() {
   if(millis()>=time){
-    if(yawDirection==RIGHT){
+    if(!isYawScanFinished){
+      if(yawDirection==RIGHT){
         right();
+      }
+      else{
+        left();
+      }
+      ls.sense();
+      if(index==0){
+        yawMinReading = ls.getReading();
+        yawAngle = posYaw;
+      }
+      if(ls.getReading()<yawMinReading){
+        yawMinReading = ls.getReading();
+        yawAngle = posYaw;
+      }
+      index++;
     }
     else{
-      left();
+      if(pitchDirection==UP){
+        up();
+      }
+      else{
+        down();
+      }
+      ls.sense();
+      if(index==0){
+        pitchMinReading = ls.getReading();
+        pitchAngle = posPitch;
+      }
+      if(ls.getReading()<pitchMinReading){
+        pitchMinReading = ls.getReading();
+        pitchAngle = posPitch;
+      }
+      index++;
     }
-    ls.sense();
-    if(index==0){
-      yawMinReading = ls.getReading();
-      yawAngle = posYaw;
-    }
-    if(ls.getReading()<yawMinReading){
-      yawMinReading = ls.getReading();
-      yawAngle = posYaw;
-    }
-    index++;
     time = millis()+TICKTIME;
   }
 
-  if(index==INDEX){
+  if(index==2*INDEX && !isYawScanFinished){
+    index=0;
+    isYawScanFinished=true;
+    yawServo.write(yawAngle);
+    time = millis()+1500;
+  }
+  if(index==2*INDEX && isYawScanFinished){
     return true;
   }
   return false;
@@ -136,9 +162,9 @@ bool TurretController::right() {
 }
 
 int TurretController::getPitchAngle() {
-  return posPitch;
+  return pitchAngle;
 }
 
 int TurretController::getYawAngle() {
-  return posYaw;
+  return yawAngle;
 }
