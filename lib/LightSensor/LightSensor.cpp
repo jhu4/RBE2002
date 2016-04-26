@@ -1,11 +1,11 @@
 #include "LightSensor.h"
 #include <Arduino.h>
 
-LightSensor::LightSensor(int Ap,unsigned int ofs):
+LightSensor::LightSensor(int Ap,unsigned int thr):
 Apin(Ap)
-,offset(ofs)
-,isCandle(false)
-,index(0),size(1){
+,threshold(thr)
+,isCandle(false),averageReading(0)
+,index(0),size(0){
 }
 
 void LightSensor::initialize(){
@@ -17,16 +17,18 @@ void LightSensor::initialize(){
  */
 bool LightSensor::sense(){
 	indexIncrement();
+	size++;
 	readinglst[index] = analogRead(Apin);
+	(size>=capacity? size=capacity: size=size);
 
-
-	for(int i=0;i<capacity;i++){
-		(size>=20? size=20: size++);
+	averageReading=0;
+	for(int i=0;i<size;i++){
 		averageReading+=readinglst[i];
 	}
-	averageReading/=size;
+	averageReading/=size;;
 
-	if(averageReading!= 0 && (averageReading-readinglst[index])>offset){
+
+	if(size==capacity && abs(averageReading-readinglst[index])>threshold){
 		isCandle = true;
 		return true;
 	}
@@ -41,9 +43,9 @@ bool LightSensor::isDetectLight(){
 	return isCandle;
 }
 
-bool LightSensor::isGetCloser(){
-	return readinglst[lastIndex()]!=0 &&((readinglst[lastIndex()]-readinglst[index])>60);
-}
+// bool LightSensor::isGetCloser(){
+// 	return readinglst[lastIndex()]!=0 &&((readinglst[lastIndex()]-readinglst[index])>60);
+// }
 
 float LightSensor::getDistance(){
   if(readinglst[index]>400){
@@ -57,11 +59,15 @@ float LightSensor::getDistance(){
 
 void LightSensor::indexIncrement(){
 	index++;
-	if(index==capacity){
+	if(index>=capacity){
 		index=0;
 	}
 }
 
 int LightSensor::lastIndex(){
 	return (index-1<0? capacity-1: index-1);
+}
+
+int LightSensor::getAverageReading(){
+	return averageReading;
 }

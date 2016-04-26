@@ -20,7 +20,7 @@ enum turretDirection{
 
 class TurretController {
   private:
-    bool isYawScanFinished;
+    bool isYawScanFinished,isPitchScanFinished;
     int index;
     int _yaw,_pitch;
     int yawMinReading, pitchMinReading;

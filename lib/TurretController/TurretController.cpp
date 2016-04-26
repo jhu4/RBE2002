@@ -1,10 +1,11 @@
 #include "TurretController.h"
 TurretController::TurretController(int yaw, int pitch,LightSensor& _ls):
-  isYawScanFinished(false),index(0)
+  isYawScanFinished(false),isPitchScanFinished(false)
+  ,index(0)
   ,_yaw(yaw), _pitch(pitch)
   ,yawMinReading(2000),pitchMinReading(2000)
   ,yawAngle(0),pitchAngle(0)
-  ,posPitch(139),posYaw(0)
+  ,posPitch(139),posYaw(135)
   ,time(0)
   ,yawDirection(RIGHT),pitchDirection(UP)
   ,ls(_ls){
@@ -41,9 +42,8 @@ bool TurretController::findCandleScan() {
         yawMinReading = ls.getReading();
         yawAngle = posYaw;
       }
-      index++;
     }
-    else{
+    if(isYawScanFinished && !isPitchScanFinished){
       if(pitchDirection==UP){
         up();
       }
@@ -59,47 +59,31 @@ bool TurretController::findCandleScan() {
         pitchMinReading = ls.getReading();
         pitchAngle = posPitch;
       }
-      index++;
     }
+    if(isPitchScanFinished && isYawScanFinished){
+      return true;
+    }
+    index++;
     time = millis()+TICKTIME;
   }
 
-  if(index==2*INDEX && !isYawScanFinished){
+  if(index==360 && !isYawScanFinished){
     index=0;
     isYawScanFinished=true;
     yawServo.write(yawAngle);
     time = millis()+1500;
   }
-  if(index==2*INDEX && isYawScanFinished){
-    return true;
+  if(index==56 && isYawScanFinished && !isPitchScanFinished){
+    isPitchScanFinished=true;
+    pitchServo.write(pitchAngle);
+    time = millis()+1500;
   }
   return false;
 }
 
-
-
-bool TurretController::scan(){
-  if(millis()>=time){
-    if(yawDirection==RIGHT){
-        right();
-        if(ls.sense()){
-          return true;
-        }
-    }
-    if(yawDirection==LEFT){
-        left();
-        if(ls.sense()){
-          return true;
-        }
-    }
-    time = millis()+TICKTIME;
-  }
-  return false;
-}
 
 bool TurretController::updownScan(){
   if(millis()>=time){
-    Serial.println(posPitch);
     if(pitchDirection==UP){
         up();
         if(ls.sense()){
@@ -112,7 +96,6 @@ bool TurretController::updownScan(){
           return true;
         }
     }
-    Serial.println(posPitch);
     time = millis()+TICKTIME;
   }
   return false;

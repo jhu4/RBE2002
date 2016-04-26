@@ -4,11 +4,11 @@
 
 class LightSensor{
 	private:
-		static const int capacity=20;
+		static const int capacity=50;
 		const int Apin;
-		const unsigned int offset;
+		const int threshold;
 		bool isCandle;
-		unsigned int averageReading;
+		long averageReading;
 		int index;
 		int size;
 		int readinglst[capacity];
@@ -16,14 +16,14 @@ class LightSensor{
 		int lastIndex();
 
 	public:
-		LightSensor(int Apin, unsigned int ofs);
+		LightSensor(int Apin, unsigned int thr);
     bool sense();
 		void initialize();
 		bool isDetectLight();
-		bool isGetCloser();
+		//bool isGetCloser();
 		int getReading();
 		float getDistance();
-		bool getIsCandle();
+		int getAverageReading();
 };
 
 #endif
