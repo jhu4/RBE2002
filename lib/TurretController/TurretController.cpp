@@ -144,11 +144,11 @@ bool TurretController::right() {
 }
 
 int TurretController::getPitchAngle() {
-  return pitchAngle;
+  return (pitchAngle-49);
 }
 
 int TurretController::getYawAngle() {
-  return yawAngle;
+  return (180-yawAngle);
 }
 
 void TurretController::reset(){
