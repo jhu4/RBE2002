@@ -61,6 +61,7 @@ bool TurretController::findCandleScan() {
       }
     }
     if(isPitchScanFinished && isYawScanFinished){
+      reset();
       return true;
     }
     index++;
@@ -148,4 +149,12 @@ int TurretController::getPitchAngle() {
 
 int TurretController::getYawAngle() {
   return yawAngle;
+}
+
+void TurretController::reset(){
+  time=0;
+  index=0;
+  isYawScanFinished=false;
+  isPitchScanFinished=false;
+  ls.reset();
 }

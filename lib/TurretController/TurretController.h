@@ -32,6 +32,7 @@ class TurretController {
     LightSensor& ls;
     Servo yawServo;
     Servo pitchServo;
+    void reset();
 
   public:
 

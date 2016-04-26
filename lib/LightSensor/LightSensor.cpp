@@ -71,3 +71,9 @@ int LightSensor::lastIndex(){
 int LightSensor::getAverageReading(){
 	return averageReading;
 }
+
+void LightSensor::reset(){
+	index=0;
+	size=0;
+	isCandle=false;
+}

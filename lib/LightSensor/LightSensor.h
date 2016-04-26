@@ -24,6 +24,7 @@ class LightSensor{
 		int getReading();
 		float getDistance();
 		int getAverageReading();
+		void reset();
 };
 
 #endif
