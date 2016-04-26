@@ -8,6 +8,9 @@
 
 class Robot{
 	private:
+		bool isFindCandle;
+		bool isYawScanEnded;
+		bool isPitchScanEnded;
 		TurretController& tc;
 		ZWallFollower& wf;
 		Displayer& displayer;

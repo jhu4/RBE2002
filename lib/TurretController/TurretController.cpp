@@ -1,9 +1,10 @@
 #include "TurretController.h"
 TurretController::TurretController(int yaw, int pitch, Fan& _fan,LightSensor& _ls):
-  _yaw(yaw)
-  , _pitch(pitch)
+  index(0)
+  ,_yaw(yaw), _pitch(pitch)
+  ,yawMinReading(2000),pitchMinReading(2000)
   ,yawAngle(0),pitchAngle(0)
-  ,posPitch(120),posYaw(0)
+  ,posPitch(139),posYaw(0)
   ,time(0)
   ,yawDirection(RIGHT),pitchDirection(UP)
   ,fan(_fan),ls(_ls){
@@ -23,31 +24,35 @@ float TurretController::getCandleDistance() {
   return ls.getDistance();
 }
 
-void TurretController::findCandle() {
-  int yawMax = 0;
-  int pitchMax = 0;
-
-  for(int i=0;i<INDEX;i++){
-    if(right()){
-      ls.sense();
-      if(ls.getReading()>yawMax){
-        yawMax=ls.getReading();
-      }
+bool TurretController::findCandleScan() {
+  if(millis()>=time){
+    if(yawDirection==RIGHT){
+        right();
     }
+    else{
+      left();
+    }
+    ls.sense();
+    if(index==0){
+      yawMinReading = ls.getReading();
+      yawAngle = posYaw;
+    }
+    if(ls.getReading()<yawMinReading){
+      yawMinReading = ls.getReading();
+      yawAngle = posYaw;
+    }
+    index++;
+    time = millis()+TICKTIME;
   }
 
-  for(int i=0;i<INDEX;i++){
-    if(up()){
-      ls.sense();
-      if(ls.getReading()>pitchMax){
-        pitchMax=ls.getReading();
-      }
-    }
+  if(index==INDEX){
+    return true;
   }
-
-  yawAngle=yawMax;
-  pitchAngle=pitchMax;
+  return false;
 }
+
+
+
 
 bool TurretController::scan(){
   if(millis()>=time){
@@ -70,6 +75,7 @@ bool TurretController::scan(){
 
 bool TurretController::updownScan(){
   if(millis()>=time){
+    Serial.println(posPitch);
     if(pitchDirection==UP){
         up();
         if(ls.sense()){
@@ -82,6 +88,7 @@ bool TurretController::updownScan(){
           return true;
         }
     }
+    Serial.println(posPitch);
     time = millis()+TICKTIME;
   }
   return false;
@@ -89,7 +96,7 @@ bool TurretController::updownScan(){
 
 
 bool TurretController::up() {
-    if (posPitch >= 180) {
+    if (posPitch >= 167) {
       pitchDirection=DOWN;
       return false;
     }
@@ -99,7 +106,7 @@ bool TurretController::up() {
 }
 
 bool TurretController::down() {
-    if (posPitch <= 0) {
+    if (posPitch <= 139) {
       pitchDirection=UP;
       return false;
     }
