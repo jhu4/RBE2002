@@ -18,6 +18,7 @@ private:
 public:
   Locator(MotorController* motorControllerA, MotorController* motorControllerB);
   void update();
+  bool atOrigin(double radius);
 };
 
 

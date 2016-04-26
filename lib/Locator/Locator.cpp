@@ -1,7 +1,7 @@
 #include "Locator.h"
 
 #include "LCD.h"
-LCD* lcd = new LCD(40,41,42,43,44,45);
+//LCD* lcd = new LCD(40,41,42,43,44,45);
 
 Locator::Locator(MotorController* motorControllerA, MotorController* motorControllerB):
 motorControllerA(motorControllerA),
@@ -37,5 +37,14 @@ void Locator::update(){
     y = y + leftDistDiff*sin(heading);
   }
 
-  lcd->display(x*MMTOIN,y*MMTOIN);
+  //lcd->display(x*MMTOIN,y*MMTOIN);
+}
+
+bool Locator::atOrigin(double radius){
+  double dist = sqrt((x*x)+(y*y));
+  if (dist < radius){
+    return true;
+  } else {
+    return false;
+  }
 }

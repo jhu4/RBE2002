@@ -20,7 +20,17 @@ bool LCD::delayWrite(){
 void LCD::initialize(){
   lcd.begin(16,2);
 }
-void LCD::display(float x, float y){
+void LCD::display(double x, double y){
+  if (!delayWrite()){
+    lcd.setCursor(0,0);
+    lcd.print("X:");
+    lcd.print(x);
+    lcd.setCursor(0,1);
+    lcd.print("Y:");
+    lcd.print(y);
+  }
+}
+void LCD::display(bool x, bool y){
   if (!delayWrite()){
     lcd.setCursor(0,0);
     lcd.print("X:");
