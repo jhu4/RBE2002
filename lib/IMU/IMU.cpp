@@ -3,17 +3,23 @@
 IMU::IMU():
 	time(0)
 	,enable(true),index(0)
-	,endAngle(0){
+	,endAngle(999)
+	,isinitialize(false){
 
 }
 
 
 
-bool IMU::initialize(){
+void IMU::initialize(){
 	if(enable){
-		gyro.init();
+		Wire.begin();
+		if(!gyro.init()){
+			Serial.println("Failed to autodetect gyro type!");
+		}
+		else{
+			enable=false;
+		}
 		gyro.enableDefault();
-		enable=false;
 		time = millis()+1000;
 	}
 	if(millis()>=time && !enable){
@@ -21,21 +27,23 @@ bool IMU::initialize(){
   	gerrx+=gyro.g.x;
   	gerry+=gyro.g.y;
   	gerrz+=gyro.g.z;
-  	time = millis()+25;
   	index++;
-  	if(index==100){
+  	if(index>=100){
   		gerrx = gerrx/100;
   		gerry = gerry/100;
  		  gerrz = gerrz/100;
  		  time = 0;
-  		return true;
+  		isinitialize=true;
   	}
+		time = millis()+25;
 	}
-	return false;
 }
 
+bool IMU::isInitialized(){
+	return isinitialize;
+}
 
-void IMU::setEndAngle(int angle){
+void IMU::setEndAngle(float angle){
 	endAngle=angle+gyro_z;
 }
 
@@ -65,4 +73,20 @@ bool IMU::update(){
 	}
 
 	return (abs(endAngle-gyro_z)<2? true: false);
+}
+
+float IMU::getgyroY(){
+	return gyro_y;
+}
+
+float IMU::getgyroZ(){
+	return gyro_z;
+}
+
+float IMU::getgyroX(){
+	return gyro_x;
+}
+
+float IMU::getEndAngle(){
+	return endAngle;
 }
