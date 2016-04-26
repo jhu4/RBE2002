@@ -8,11 +8,12 @@ class LightSensor{
 		const int Apin;
 		const unsigned int offset;
 		bool isCandle;
-		bool enable;
 		unsigned int averageReading;
 		int index;
 		int size;
 		int readinglst[capacity];
+		void indexIncrement();
+		int lastIndex();
 
 	public:
 		LightSensor(int Apin, unsigned int ofs);
@@ -22,8 +23,7 @@ class LightSensor{
 		bool isGetCloser();
 		int getReading();
 		float getDistance();
-		void indexIncrement();
-		int lastIndex();
+		bool getIsCandle();
 };
 
 #endif

@@ -4,10 +4,8 @@
 #include "Fan.h"
 #include <Servo.h>
 
-LightSensor ls(3,12,100);
-Fan fan(25);
-TurretController tc(4,5,fan,ls);
-Servo hi;
+LightSensor ls(3,100);
+TurretController tc(4,5,ls);
 void setup(){
   Serial.begin(9600);
   pinMode(9,OUTPUT);
@@ -17,7 +15,11 @@ void setup(){
 
 void loop(){
 
-  if(tc.findCandleScan()){
+  if(ls.isDetectLight()){
+    tc.findCandleScan();
+  }
+  else{
+    tc.updownScan();
   }
 
 }

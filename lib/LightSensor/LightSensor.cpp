@@ -4,7 +4,7 @@
 LightSensor::LightSensor(int Ap,unsigned int ofs):
 Apin(Ap)
 ,offset(ofs)
-,isCandle(false),enable(true)
+,isCandle(false)
 ,index(0),size(1){
 }
 
@@ -27,6 +27,7 @@ bool LightSensor::sense(){
 	averageReading/=size;
 
 	if(averageReading!= 0 && (averageReading-readinglst[index])>offset){
+		isCandle = true;
 		return true;
 	}
 	return false;

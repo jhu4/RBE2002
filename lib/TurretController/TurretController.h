@@ -29,14 +29,13 @@ class TurretController {
     unsigned long time ;
     enum turretDirection yawDirection;
     enum turretDirection pitchDirection;
-    Fan& fan;
     LightSensor& ls;
     Servo yawServo;
     Servo pitchServo;
 
   public:
 
-    TurretController(int _yaw, int _pitch, Fan& fan, LightSensor& ls);
+    TurretController(int _yaw, int _pitch, LightSensor& ls);
     void initialize();
     bool up();
     bool down();

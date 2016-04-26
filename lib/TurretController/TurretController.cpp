@@ -1,5 +1,5 @@
 #include "TurretController.h"
-TurretController::TurretController(int yaw, int pitch, Fan& _fan,LightSensor& _ls):
+TurretController::TurretController(int yaw, int pitch,LightSensor& _ls):
   isYawScanFinished(false),index(0)
   ,_yaw(yaw), _pitch(pitch)
   ,yawMinReading(2000),pitchMinReading(2000)
@@ -7,12 +7,11 @@ TurretController::TurretController(int yaw, int pitch, Fan& _fan,LightSensor& _l
   ,posPitch(139),posYaw(0)
   ,time(0)
   ,yawDirection(RIGHT),pitchDirection(UP)
-  ,fan(_fan),ls(_ls){
+  ,ls(_ls){
 
 }
 
 void TurretController::initialize() {
-  fan.initialize();
   ls.initialize();
   yawServo.attach(_yaw);
   pitchServo.attach(_pitch);
@@ -76,7 +75,6 @@ bool TurretController::findCandleScan() {
   }
   return false;
 }
-
 
 
 
