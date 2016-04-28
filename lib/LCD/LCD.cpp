@@ -47,7 +47,14 @@ void LCD::display(float z){
   lcd.print(z);
 }
 
+void LCD::display(int z){
+  lcd.setCursor(0,1);
+  lcd.print("Z:");
+  lcd.print(z);
+}
+
 void LCD::display(float x, float y, float z){
+  lcd.clear();
   lcd.setCursor(0,0);
   lcd.print("X:");
   lcd.print(x);
@@ -56,6 +63,7 @@ void LCD::display(float x, float y, float z){
   lcd.setCursor(0,1);
   lcd.print("Z:");
   lcd.print(z);
+  lcd.print("FLAME OUT");
 }
 
 void LCD::display(String message){

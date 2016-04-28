@@ -8,7 +8,7 @@
 
 #define HALFANGLE 1
 #define INDEX (180/HALFANGLE)
-#define TICKTIME 50
+#define TICKTIME 10
 
 enum turretDirection{
   UP,
@@ -27,11 +27,13 @@ class TurretController {
     int yawAngle,pitchAngle;
     int posPitch,posYaw;
     unsigned long time ;
+    long buffer;
     enum turretDirection yawDirection;
     enum turretDirection pitchDirection;
     LightSensor& ls;
     Servo yawServo;
     Servo pitchServo;
+    void reset();
 
   public:
 

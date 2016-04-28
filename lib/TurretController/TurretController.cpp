@@ -1,12 +1,15 @@
 #include "TurretController.h"
+#include "LCD.h"
+//LCD* lcd = new LCD(40,41,42,43,44,45);
+
 TurretController::TurretController(int yaw, int pitch,LightSensor& _ls):
   isYawScanFinished(false),isPitchScanFinished(false)
   ,index(0)
   ,_yaw(yaw), _pitch(pitch)
   ,yawMinReading(2000),pitchMinReading(2000)
   ,yawAngle(0),pitchAngle(0)
-  ,posPitch(139),posYaw(135)
-  ,time(0)
+  ,posPitch(129),posYaw(115) //135
+  ,time(0),buffer(0)
   ,yawDirection(RIGHT),pitchDirection(UP)
   ,ls(_ls){
 
@@ -26,59 +29,64 @@ float TurretController::getCandleDistance() {
 
 bool TurretController::findCandleScan() {
   if(millis()>=time){
-    if(!isYawScanFinished){
-      if(yawDirection==RIGHT){
-        right();
-      }
-      else{
-        left();
-      }
-      ls.sense();
-      if(index==0){
-        yawMinReading = ls.getReading();
-        yawAngle = posYaw;
-      }
-      if(ls.getReading()<yawMinReading){
-        yawMinReading = ls.getReading();
-        yawAngle = posYaw;
-      }
-    }
-    if(isYawScanFinished && !isPitchScanFinished){
-      if(pitchDirection==UP){
-        up();
-      }
-      else{
-        down();
-      }
-      ls.sense();
-      if(index==0){
-        pitchMinReading = ls.getReading();
-        pitchAngle = posPitch;
-      }
-      if(ls.getReading()<pitchMinReading){
-        pitchMinReading = ls.getReading();
-        pitchAngle = posPitch;
-      }
-    }
-    if(isPitchScanFinished && isYawScanFinished){
-      return true;
-    }
-    index++;
-    time = millis()+TICKTIME;
-  }
+     if(!isYawScanFinished){
+       if(yawDirection==RIGHT){
+         right();
+       }
+       else{
+         left();
+       }
+       ls.sense();
+       if(index==0){
+         yawMinReading = ls.getReading();
+         yawAngle = posYaw;
+       }
+       if(ls.getReading()<yawMinReading){
+         yawMinReading = ls.getReading();
+         yawAngle = posYaw;
+       }
+     }
+     if(isYawScanFinished && !isPitchScanFinished){
+       if(pitchDirection==UP){
+         up();
+       }
+       else{
+         down();
+       }
+       for(int i=0;i<100;i++){
+         ls.sense();
+         buffer+=ls.getReading();
+       }
+       buffer/=100;
+       if(index==0){
+         pitchMinReading = buffer;//ls.getReading();
+         pitchAngle = posPitch;
+       }
+       if(buffer<pitchMinReading){
+         pitchMinReading = buffer;
+         pitchAngle = posPitch;
+       }
+     }
+     if(isPitchScanFinished && isYawScanFinished){
+       reset();
+       return true;
+     }
+     index++;
+     time = millis()+TICKTIME;
+   }
 
-  if(index==360 && !isYawScanFinished){
-    index=0;
-    isYawScanFinished=true;
-    yawServo.write(yawAngle);
-    time = millis()+1500;
-  }
-  if(index==56 && isYawScanFinished && !isPitchScanFinished){
-    isPitchScanFinished=true;
-    pitchServo.write(pitchAngle);
-    time = millis()+1500;
-  }
-  return false;
+   if(index==360 && !isYawScanFinished){
+     index=0;
+     isYawScanFinished=true;
+     yawServo.write(yawAngle);
+     time = millis()+1500;
+   }
+   if(index==360 && isYawScanFinished && !isPitchScanFinished){
+     isPitchScanFinished=true;
+     pitchServo.write(pitchAngle+5);
+     time = millis()+1500;
+   }
+   return false;
 }
 
 
@@ -113,7 +121,7 @@ bool TurretController::up() {
 }
 
 bool TurretController::down() {
-    if (posPitch <= 139) {
+    if (posPitch <= 129) {
       pitchDirection=UP;
       return false;
     }
@@ -143,9 +151,17 @@ bool TurretController::right() {
 }
 
 int TurretController::getPitchAngle() {
-  return pitchAngle;
+  return (pitchAngle-49);
 }
 
 int TurretController::getYawAngle() {
-  return yawAngle;
+  return (180-yawAngle);
+}
+
+void TurretController::reset(){
+  time=0;
+  index=0;
+  isYawScanFinished=false;
+  isPitchScanFinished=false;
+  ls.reset();
 }

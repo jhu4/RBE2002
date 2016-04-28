@@ -40,6 +40,16 @@ void Locator::update(){
   //lcd->display(x*MMTOIN,y*MMTOIN);
 }
 
+//230
+double Locator::getCandleX(double mm){
+  return (x + (mm*cos(heading)))*MMTOIN;
+}
+
+double Locator::getCandleY(double mm){
+  return (y + (mm*sin(heading)))*MMTOIN;
+}
+
+
 bool Locator::atOrigin(double radius){
   double dist = sqrt((x*x)+(y*y));
   if (dist < radius){
