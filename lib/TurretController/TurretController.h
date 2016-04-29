@@ -3,7 +3,6 @@
 #include <Arduino.h>
 #include <Servo.h>
 #include "LightSensor.h"
-//#include "Fan.h"
 
 
 #define HALFANGLE 1

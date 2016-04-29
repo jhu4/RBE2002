@@ -5,23 +5,15 @@
 #include "DistanceSensor.h"
 #include "ZWallFollower.h"
 #include "Locator.h"
-
 #include "LightSensor.h"
 #include "TurretController.h"
 
-//#include "IMU.h"
-
 #include <Arduino.h>
 
-#define enablePin 11
-
-/////////////////////////IMU
-
+///////////////////////// IMU code from Joes Lab 4 code
 #include <Wire.h>
 #include <L3G.h>
-
 L3G gyro;
-
 
 float G_Dt=0.005;    // Integration time (DCM algorithm)  We will run the integration loop at 50Hz if possible
 
@@ -38,54 +30,55 @@ float gyro_zold; //gyro cummulative z value
 float gerrx; // Gyro x error
 float gerry; // Gyro y error
 float gerrz; // Gyro 7 error
-
-
 /////////////////////////
 
+#define enablePin 11
 
-
-
-
-
-
+// initialize encoders
 Encoder* eLeft = new Encoder(2,3);
 Encoder* eRight = new Encoder(18,19);
 
+// initialize motors
 Motor* leftMotor = new Motor(10, 7, 8, 1);
 Motor* rightMotor = new Motor(6, 24, 23, 0);
 
+// initialize motor controllers
 MotorController* leftControl = new MotorController(leftMotor, eLeft, 0.2, 0.7, 0.0);
 MotorController* rightControl = new MotorController(rightMotor, eRight, 0.2, 0.7, 0.0);
 
+// initialize LCD
 LCD* lcd = new LCD(40,41,42,43,44,45);
 
+// initialize distance sensors
 DistanceSensor* distA = new DistanceSensor(A2);
 DistanceSensor* distB = new DistanceSensor(A1);
 DistanceSensor* distC = new DistanceSensor(A0);
 
+// intialize wall follower
 ZWallFollower* follower = new ZWallFollower(distA, distB, distC, leftControl, rightControl, 150, 100 , 2 , 0, 1);
 
+// initialize locator (odometery system)
 Locator* locator = new Locator(leftControl, rightControl);
 
-// changed 150, 100
+// intialize candle sensor
 LightSensor lightSensor(3,120);
+
+// initialize turret controller
 TurretController* turretController = new TurretController(4,5,lightSensor);
 
-
-//enum State {WALL_FOLLOW_INIT, WALL_FOLLOW, STOP_INIT, STOP, FLAME_INIT, FLAME, EXTINGUISH, DRIVE_STRAIGHT, FLAME_INIT_2, FLAME_2};
-enum State {WALL_FOLLOW_INIT, WALL_FOLLOW, STOP_INIT, STOP, TURN_90_OFFWALL, DRIVE_TO_CANDLE, TURN_90_CANDLE, DRIVE_TO_WALL, TURN_90_WALL, FLAME_INIT, FLAME, EXTINGUISH};
+// state machine states
+enum State {WALL_FOLLOW_INIT, WALL_FOLLOW, STOP_INIT, STOP, TURN_90_OFFWALL,
+	DRIVE_TO_CANDLE, TURN_90_CANDLE, DRIVE_TO_WALL, TURN_90_WALL, FLAME_INIT,
+	FLAME, EXTINGUISH};
+// initial robot state
 State robotState = WALL_FOLLOW_INIT;
-
-//IMU* imu = new IMU();
 
 void setup() {
 
 	pinMode(enablePin, OUTPUT);
 	digitalWrite(enablePin, HIGH);
 
-
-
-/////////////////////////////////////IMU
+///////////////////////// IMU code from Joes Lab 4 code
 	Wire.begin(); // i2c begin
 
   if (!gyro.init()) // gyro init
@@ -107,40 +100,30 @@ void setup() {
   gerrx = gerrx/100; // average reading to obtain an error/offset
   gerry = gerry/100;
   gerrz = gerrz/100;
-	//while (!(imu->isInitialized())){
-	//	imu->initialize();
-//	}
-////////////////////////////////////IMU
 
-
-
+/////////////////////////
 }
 
 
 long lastTime = 0;
 long lastTimeA = 0;
-long startTicks = 0;
+
 long blowTimer = 0;
-long waitTimer = 0;
-float candleDistance = 0;
 
 bool leftDone = false;
 bool rightDone = false;
 
 bool hasCandle = false;
 
-double angleA = 0;
-double angleB = 0;
-
 double cx = 0;
 double cy = 0;
-
 double cz = 0;
 
 
 void loop() {
 
 	switch (robotState) {
+		// initialize wallfollowing (exicuted once before wallfollowing)
 		case WALL_FOLLOW_INIT:
 			follower->enable();
 			robotState = WALL_FOLLOW;
@@ -149,14 +132,21 @@ void loop() {
 
 			lastTimeA = millis();
 			break;
+
+		// wall following active
 		case WALL_FOLLOW:
-			//lcd->display("WALLFOLLOW");
+			// updated the wallfollower to controll the robot's motion
 			follower->update();
+
+			// update the odometery data from motor controllers
 			locator->update();
+
+			// check if at origin after start
 			if ((locator->atOrigin(200.0)) && ((millis()-lastTimeA) > 10000)){
 				robotState = STOP_INIT;
 			}
 
+			// scan with the turret and candel sensor and turn towards it when found
 			lightSensor.sense();
 			if (turretController->updownScan() && !hasCandle){
 				lcd->display("FOUND Candle");
@@ -165,64 +155,40 @@ void loop() {
 				gyro_z = 0;
 			}
 			break;
+
+		// initialize stoping (exicuted once before stoping)
 		case STOP_INIT:
+			// set speed to 0
 			leftControl->setSpeed(0);
 			rightControl->setSpeed(0);
+
+			// update the motors
 			leftControl->update();
 			rightControl->update();
+
+			// disable the wallfollower
 			follower->disable();
+
+			// start time of the stop
 			lastTime = millis();
 			robotState = STOP;
 			break;
+
 		case STOP:
+			// remain stoped for 10 sec
 			if ((millis()-lastTime) < 10000){
+				// update the motor controllers
 				leftControl->update();
 				rightControl->update();
 			} else {
+				// resume wallfollowing
 				robotState = WALL_FOLLOW_INIT;
 			}
 			break;
-		// case FLAME_INIT:
-		// 	leftControl->setSpeed(0);
-		// 	rightControl->setSpeed(0);
-		// 	leftControl->update();
-		// 	rightControl->update();
-		// 	follower->disable();
-		// 	robotState = FLAME;
-		// 	break;
-		// case FLAME:
-		// 	if (turretController->findCandleScan()){
-		// 		angleA = turretController->getYawAngle();
-		// 		robotState = DRIVE_STRAIGHT;
-		// 		//robotState = EXTINGUISH;
-		// 		//blowTimer = millis();
-		// 	}
-		// 	leftControl->update();
-		// 	rightControl->update();
-		// 	break;
-		// case DRIVE_STRAIGHT:
-		// 	if(!leftDone){
-		// 		leftDone = leftControl->moveTicks(3200, 100);
-		// 	}
-		//
-		// 	if(!rightDone){
-		// 		rightDone = rightControl->moveTicks(3200, 100);
-		// 	}
-		//
-		// 	if(leftDone && rightDone){
-		// 		leftDone = false;
-		// 		rightDone = false;
-		// 		robotState = FLAME_INIT_2;
-		// 	}
-		// 	leftControl->update();
-		// 	rightControl->update();
-		// 	break;
 
-
+		// turn 90 degrees using the gyro
 		case TURN_90_OFFWALL:
-
-
-
+			///////////////////////// IMU code from Joes Lab 4 code
 			if((millis()-timer)>=5){
 
 		   gyro.read(); // read gyro
@@ -243,89 +209,76 @@ void loop() {
 		      gyro_yold=gyro_y ;
 		      gyro_zold=gyro_z ;
 		   }
+			 /////////////////////////
 
-
-		 //lcd->display(gyro_z);
-
-			//imu->setEndAngle(90);
+			// move motors until turn is complete
 			leftControl->setSpeed(-250);
 			rightControl->setSpeed(200);
-			if (gyro_z < 30){
-
-			} else {
+			if (gyro_z > 30){
 				leftControl->setSpeed(0);
 				rightControl->setSpeed(0);
 				robotState = DRIVE_TO_CANDLE;
 				gyro_z = 0;
 			}
+			// update the motors
 			leftControl->update();
 			rightControl->update();
+			//update odomotry data
 			locator->update();
 			break;
 
-
-		// case TURN_90_OFFWALL:
-		// 	//lcd->display("OFFWALL    ");
-		// 	if(!leftDone){
-		// 		leftDone = leftControl->moveTicks(-700, -150);
-		// 	}
-		//
-		// 	if(!rightDone){
-		// 		rightDone = rightControl->moveTicks(700, 120);
-		// 	}
-		//
-		// 	if(leftDone && rightDone){
-		// 		leftDone = false;
-		// 		rightDone = false;
-		// 		robotState = DRIVE_TO_CANDLE;
-		// 	}
-		// 	leftControl->update();
-		// 	rightControl->update();
-		// 	locator->update();
-		// 	break;
-
 		case DRIVE_TO_CANDLE:
-		//lcd->display("DRIVETOCANDLE    ");
+			// drive until detect candle in front of the robot
 			distC->getDistance();
 			if (distC->getAverage() < 11){
 				leftControl->setSpeed(0);
 				rightControl->setSpeed(0);
 				leftControl->update();
 				rightControl->update();
+
+				// get candle x,y
 				cx = locator->getCandleX(230);
 				cy = locator->getCandleY(230);
 				robotState = TURN_90_CANDLE;
 			}
 			leftControl->setSpeed(100);
 			rightControl->setSpeed(100);
+
+			// update the motor controllers
 			leftControl->update();
 			rightControl->update();
+			// update the odometery data
 			locator->update();
 			break;
 
+		// turn away from the candle to go to the wall
 		case TURN_90_CANDLE:
-		//lcd->display("TURN90CANDLE");
+			// move with encoders untill turn is complete
 			if(!leftDone){
 				leftDone = leftControl->moveTicks(500, 150);
 			}
-
 			if(!rightDone){
 				rightDone = rightControl->moveTicks(-500, -250);
 			}
 
+			// next state if turn is finished
 			if(leftDone && rightDone){
 				leftDone = false;
 				rightDone = false;
 				robotState = FLAME_INIT;
 			}
+
+			// update the motor controllers
 			leftControl->update();
 			rightControl->update();
+
+			// update the odometery data
 			locator->update();
 			break;
 
-
+		// drive straight until detect a wall
 		case DRIVE_TO_WALL:
-			//lcd->display("DRIVETOWALL");
+			// drive until detect a wall
 			distC->getDistance();
 			if (distC->getAverage() < 11){
 				leftControl->setSpeed(0);
@@ -336,61 +289,88 @@ void loop() {
 			}
 			leftControl->setSpeed(100);
 			rightControl->setSpeed(105);
+
+			// upadate motro controllers
 			leftControl->update();
 			rightControl->update();
+
+			// update the odometery data
 			locator->update();
 			break;
 
+		// turn onto the wall
 		case TURN_90_WALL:
-			//lcd->display("TURN_90_WALL    ");
+			// move with encoders untill turn is complete
 			if(!leftDone){
 				leftDone = leftControl->moveTicks(-700, -250);
 			}
-
 			if(!rightDone){
 				rightDone = rightControl->moveTicks(700, 150);
 			}
 
+			// exit state when turn is complete
 			if(leftDone && rightDone){
 				leftDone = false;
 				rightDone = false;
 				robotState = WALL_FOLLOW_INIT;
 			}
+
+			// update motor controllers
 			leftControl->update();
 			rightControl->update();
+
+			// update odometery data
 			locator->update();
 			break;
 
+		// initialize the flame detection sequence (only runs once)
 		case FLAME_INIT:
 			leftControl->setSpeed(0);
 			rightControl->setSpeed(0);
+
+			// update the motor controllers
 			leftControl->update();
 			rightControl->update();
+
+			//disable the wall follower
 			follower->disable();
 			robotState = FLAME;
 			break;
+
+		// detect the flame
 		case FLAME:
+			// scan for the candle
 			if (turretController->findCandleScan()){
+				// determine z candle height
 				double angle = turretController->getPitchAngle();
 				cz = (tan((angle-90)*0.0174533)*9)+7.4;
 				robotState = EXTINGUISH;
 				blowTimer = millis();
 			}
+			// update the motor controllers
 			leftControl->update();
 			rightControl->update();
 			break;
 
+		// blow out the candle
 		case EXTINGUISH:
+			// blow for 10 seconds
 			if (millis()-blowTimer > 10000){
+				// turn off the fan and display the x,y,z corrdinates
+				// and that the candle has been extinguished
 				digitalWrite(22,LOW);
 				lcd->display(cx,cy,cz);
 				robotState = DRIVE_TO_WALL;
 			} else {
+				// turn the fan on
 				digitalWrite(22, HIGH);
 			}
+			// update the motor controllers
 			leftControl->update();
 			rightControl->update();
 			break;
+
+		// catch the defualt case (should not happen but, useful for debuging)
 		default:
 			delay(10000);
 			break;

@@ -1,6 +1,5 @@
 #include "TurretController.h"
 #include "LCD.h"
-//LCD* lcd = new LCD(40,41,42,43,44,45);
 
 TurretController::TurretController(int yaw, int pitch,LightSensor& _ls):
   isYawScanFinished(false),isPitchScanFinished(false)
@@ -8,7 +7,7 @@ TurretController::TurretController(int yaw, int pitch,LightSensor& _ls):
   ,_yaw(yaw), _pitch(pitch)
   ,yawMinReading(2000),pitchMinReading(2000)
   ,yawAngle(0),pitchAngle(0)
-  ,posPitch(129),posYaw(115) //135
+  ,posPitch(129),posYaw(115)
   ,time(0),buffer(0)
   ,yawDirection(RIGHT),pitchDirection(UP)
   ,ls(_ls){
@@ -59,7 +58,7 @@ bool TurretController::findCandleScan() {
        }
        buffer/=100;
        if(index==0){
-         pitchMinReading = buffer;//ls.getReading();
+         pitchMinReading = buffer;
          pitchAngle = posPitch;
        }
        if(buffer<pitchMinReading){
