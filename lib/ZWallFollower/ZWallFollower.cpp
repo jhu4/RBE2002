@@ -1,8 +1,15 @@
+/*
+WallFollower class to handle wallowing arround the maze
+Wallfollower.cpp
+controlls the motors to follow a wall
+
+author: Zachary Armsby
+*/
+
 #include "ZWallFollower.h"
 #include "LCD.h"
 
-//LCD* lcd = new LCD(40,41,42,43,44,45);
-
+// initialize the wall follower and start the pid
 ZWallFollower::ZWallFollower(DistanceSensor* distSenseA, DistanceSensor* distSenseB, DistanceSensor* distSenseC,
   MotorController* motorControllerA, MotorController* motorControllerB,
   double distance, double biasSpeed, double kp, double ki, double kd):
@@ -26,6 +33,7 @@ ZWallFollower::ZWallFollower(DistanceSensor* distSenseA, DistanceSensor* distSen
   	pid.SetMode(AUTOMATIC);
 }
 
+// distance calculatoing perpendicular to the wall at the front of the robot
 double ZWallFollower::getDistance(){
   double d1 = distSenseA->getDistance();
   double d2 = distSenseB->getDistance();
@@ -44,9 +52,11 @@ double ZWallFollower::getDistance(){
   return dist;
 }
 
+// update the wallfollower and make adjustments to motor speeds/ detect corner cases
 void ZWallFollower::update(){
   if (enabled){
 
+    // detect front wall
     distSenseC->getDistance();
     if((distSenseC->getAverage() < 11) && (ADone && BDone)){
 
@@ -56,6 +66,7 @@ void ZWallFollower::update(){
       leftTurn = true;
     }
 
+    // detect edge
     if((distSenseB->getDistance() > 240) && (ADone && BDone)){
 
       ADone = false;
@@ -64,6 +75,7 @@ void ZWallFollower::update(){
       leftTurn = false;
     }
 
+    // turining based on corner cases
     if (!ADone){
       if (leftTurn){
         ADone = motorControllerA->moveTicks(-1600, -200);
@@ -79,23 +91,28 @@ void ZWallFollower::update(){
       }
 		}
 
+    // update pid for wall following
     if((ADone && BDone) && pid.Compute()){
 
       input = getDistance();
 
+      // bias forward speed with pid controled output
       motorControllerA->setSpeed(biasSpeed - output);
       motorControllerB->setSpeed(biasSpeed + output);
     }
   }
+  // update motors
   motorControllerA->update();
   motorControllerB->update();
 }
 
+// disable the wall follower
 void ZWallFollower::disable(){
   enabled = 0;
   pid.SetMode(MANUAL);
 }
 
+// re-enable the wallfollower
 void ZWallFollower::enable(){
   enabled = 1;
   pid.SetMode(AUTOMATIC);

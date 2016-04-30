@@ -104,17 +104,23 @@ void setup() {
 /////////////////////////
 }
 
-
+// timer for stopping period
 long lastTime = 0;
+
+// timer for checking if have been running for more than 10 secs
 long lastTimeA = 0;
 
+// timer for blowing out the candle
 long blowTimer = 0;
 
+// booleans for if encoder motor moves have finished
 bool leftDone = false;
 bool rightDone = false;
 
+// has the candle been found
 bool hasCandle = false;
 
+// candle coordinates
 double cx = 0;
 double cy = 0;
 double cz = 0;

@@ -1,3 +1,11 @@
+/*
+Motor class to handle low level motor operations and H-bridge
+Motor.h
+basic motor operations
+
+author: Zachary Armsby
+*/
+
 #ifndef MOTOR_H
 #define MOTOR_H
 

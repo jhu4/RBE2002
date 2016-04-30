@@ -1,7 +1,17 @@
+/*
+Locator, handles odometry calulations
+Locator.h
+odometry calculations and candle location
+
+author: Zachary Armsby
+*/
+
 #ifndef LOCATOR_H
 #define LOCATOR_H
 
 #include "MotorController.h"
+
+// conversion factor
 #define MMTOIN 0.0393701
 
 class Locator{

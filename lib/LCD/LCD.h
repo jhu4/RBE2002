@@ -1,3 +1,11 @@
+/*
+LCD Wrapper
+LCD.h
+LCD class to handle displaying to the LCD
+
+author: Rayyan Khan, Zachary Armsby
+*/
+
 #ifndef LCD_H
 #define LCD_H
 #include <LiquidCrystal.h>

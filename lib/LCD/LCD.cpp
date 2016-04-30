@@ -1,12 +1,21 @@
+/*
+LCD Wrapper
+LCD.cpp
+LCD class to handle displaying to the LCD
+
+author: Rayyan Khan, Zachary Armsby
+*/
+
 #include "LCD.h"
 
-
+// initialize the lcd
 LCD::LCD(int p1, int p2, int p3, int p4, int p5, int p6):
 lcd(p1, p2, p3, p4, p5, p6),
 lastTime(0){
   lcd.begin(16,2);
 }
 
+// prevent too many writes to the lcd and reduce flicker
 bool LCD::delayWrite(){
   unsigned long currTime = millis();
   if ((currTime-lastTime) < 100){
@@ -17,9 +26,9 @@ bool LCD::delayWrite(){
   }
 }
 
-void LCD::initialize(){
-  lcd.begin(16,2);
-}
+
+// display handlers for various situations all are very similar and simple
+
 void LCD::display(double x, double y){
   if (!delayWrite()){
     lcd.setCursor(0,0);

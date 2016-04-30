@@ -1,3 +1,11 @@
+/*
+WallFollower class to handle wallowing arround the maze
+Wallfollower.h
+controlls the motors to follow a wall
+
+author: Zachary Armsby
+*/
+
 #ifndef ZWALLFOLLOWER_H
 #define ZWALLFOLLOWER_H
 

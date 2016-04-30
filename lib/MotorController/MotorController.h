@@ -1,3 +1,11 @@
+/*
+MotorController class to controll high level motor functions
+Motor.h
+high level motor operations
+
+author: Zachary Armsby
+*/
+
 #ifndef MOTORCONTROLLER_H
 #define MOTORCONTROLLER_H
 
@@ -5,8 +13,7 @@
 #include "Encoder.h"
 #include "PID_v1.h"
 
-//#define TICKTOMM 0.0687223393
-
+// conversion factor
 #define TICKTOMM 0.0697223393
 
 class MotorController{

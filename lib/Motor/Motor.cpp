@@ -1,7 +1,15 @@
+/*
+Motor class to handle low level motor operations and H-bridge
+Motor.cpp
+basic motor operations
+
+author: Zachary Armsby
+*/
+
 #include "Motor.h"
 #include <Arduino.h>
 
-
+// initialize the motor, setup pins and set inital direction and speed
 Motor::Motor(int speedPin, int dirAPin, int dirBPin, bool invert):
 speedPin(speedPin),
 dirAPin(dirAPin),
@@ -17,10 +25,12 @@ invert(invert){
 	setSpeed(0);
 }
 
+// detect if motor is inverted
 bool Motor::isInvert(){
 	return invert;
 }
 
+// set the motor direction
 void Motor::setDir(bool forwardDir){
 
 	if (this->invert){
@@ -37,31 +47,32 @@ void Motor::setDir(bool forwardDir){
 	return;
 }
 
+// set the motor speed
 void Motor::setSpeed(int speed){
-	//Serial.println("call");
 	this->speed = speed;
 
+	// detect going backward
 	bool backward = false;
 	if (speed < 0){
 		backward = true;
 		speed = -speed;
 	};
 
+	// set the dirrection if nessary
 	if(backward && dir){
-		//Serial.println("change!");
-		//speed = -speed;
 		this->dir = 0;
 		setDir(0);
 	} else if (!backward && !dir){
-		//Serial.println("change!");
 		this->dir = 1;
 		setDir(1);
 	}
 
+	// limit the max speed
 	if (speed > 255){
 		speed = 255;
 	}
 
+	// write the speed
 	analogWrite(speedPin, speed);
 	return;
 }
