@@ -13,7 +13,7 @@ void LightSensor::initialize(){
 }
 
 /** Sense the flame
- * @return if something unusual happened
+ * @return if true if it detects the candle
  */
 bool LightSensor::sense(){
 	indexIncrement();
@@ -35,18 +35,23 @@ bool LightSensor::sense(){
 	return false;
 }
 
+/**Get the reading from a flame sensor
+*@return The current analogy reading of the flame sensor
+**/
 int LightSensor::getReading(){
 	return readinglst[index];
 }
 
+/**Asking the flame sensor if it detects the light
+ *@return true if the flame sensor has detected the candle
+**/
 bool LightSensor::isDetectLight(){
 	return isCandle;
 }
 
-// bool LightSensor::isGetCloser(){
-// 	return readinglst[lastIndex()]!=0 &&((readinglst[lastIndex()]-readinglst[index])>60);
-// }
-
+/**Get the distance from the flame sensor to the candle
+ *@return The distance from FlameSensor to the point of the lowest reading
+**/
 float LightSensor::getDistance(){
   if(readinglst[index]>400){
     return -999;
@@ -57,6 +62,9 @@ float LightSensor::getDistance(){
 	return (log((float)readinglst[index])-2.57)/0.022;
 }
 
+/**
+ *Increment the index of the array
+**/
 void LightSensor::indexIncrement(){
 	index++;
 	if(index>=capacity){
@@ -64,14 +72,23 @@ void LightSensor::indexIncrement(){
 	}
 }
 
+/**
+ *@return The last index of the array
+**/
 int LightSensor::lastIndex(){
 	return (index-1<0? capacity-1: index-1);
 }
 
+/**
+ *@return The average analog reading of the flame sensor
+**/
 int LightSensor::getAverageReading(){
 	return averageReading;
 }
 
+/**
+ *Reset the state of the flame sensor
+**/
 void LightSensor::reset(){
 	index=0;
 	size=0;
