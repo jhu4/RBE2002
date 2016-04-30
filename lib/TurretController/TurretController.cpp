@@ -12,6 +12,9 @@ TurretController::TurretController(int yaw, int pitch,LightSensor& _ls):
 
 }
 
+/**
+ *Initialize the turret controller
+**/
 void TurretController::initialize() {
   ls.initialize();
   yawServo.attach(_yaw);
@@ -20,10 +23,16 @@ void TurretController::initialize() {
   pitchServo.write(posPitch);
 }
 
+/**
+ *@return float number representing the distance from the flame sensor to the candle
+**/
 float TurretController::getCandleDistance() {
   return ls.getDistance();
 }
 
+/**Turret finding candle scan method
+ *@return true if the turret finished find candle scanning
+**/
 bool TurretController::findCandleScan() {
   if(millis()>=time){
     if(!isYawScanFinished){
@@ -82,7 +91,9 @@ bool TurretController::findCandleScan() {
   return false;
 }
 
-
+/**Finding candle scan in pitch direction
+ *@return true if the turret controller finishing its up down scan
+**/
 bool TurretController::updownScan(){
   if(millis()>=time){
     if(pitchDirection==UP){
@@ -102,7 +113,9 @@ bool TurretController::updownScan(){
   return false;
 }
 
-
+/**Turn the fan up
+ *@return true if it doesn't hit the extreme value
+**/
 bool TurretController::up() {
     if (posPitch >= 167) {
       pitchDirection=DOWN;
@@ -113,6 +126,9 @@ bool TurretController::up() {
     return true;
 }
 
+/**Turn the fan down
+ *@return true if it doesn't hit the extreme value
+**/
 bool TurretController::down() {
     if (posPitch <= 139) {
       pitchDirection=UP;
@@ -123,6 +139,9 @@ bool TurretController::down() {
     return true;
 }
 
+/**Turn the turret toward left
+ *@return true if it doesn't hit the extreme value
+**/
 bool TurretController::left() {
     if (posYaw <= 0) {
       yawDirection=RIGHT;
@@ -133,6 +152,9 @@ bool TurretController::left() {
     return true;
 }
 
+/**Turn the turret toward right
+ *@return true if it doesn't hit the extreme value
+**/
 bool TurretController::right() {
     if (posYaw >= 180) {
       yawDirection=LEFT;
@@ -143,14 +165,23 @@ bool TurretController::right() {
     return true;
 }
 
+/**Get the pitch angle
+ *@return the pitch angle where the flame sensor sensing the lowest value
+**/
 int TurretController::getPitchAngle() {
   return (pitchAngle-49);
 }
 
+/**Get the yaw angle
+ *@return the yaw angle where the flame sensor sensing the lowest value
+**/
 int TurretController::getYawAngle() {
   return (180-yawAngle);
 }
 
+/**
+ *Reset the turret controller
+**/
 void TurretController::reset(){
   time=0;
   index=0;
