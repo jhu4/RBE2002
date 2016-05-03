@@ -1,3 +1,11 @@
+/*
+Main program
+main.cpp
+state machine to run the robot
+
+author: Zachary Armsby
+*/
+
 #include "Motor.h"
 #include "Encoder.h"
 #include "MotorController.h"
